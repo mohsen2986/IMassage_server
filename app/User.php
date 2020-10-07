@@ -9,6 +9,14 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    const VERIFIED_USER = '1';
+    const UNVERIFIED_USER = '0';
+
+    const ADMIN_USER = 'true';
+    const REGULAR_USER = 'false';
+
+    const MALE_GENDER = 'true';
+    const FEMALE_GENDER = 'false';
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +24,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name',
+        'email',
+        'password',
+        'family' ,
+        'phone' ,
+        'photo' ,
+        'father_name' ,
+        'melli_code' ,
+        'shenasnameh_code' ,
+        'born_location' ,
+        'address' ,
+        'verified' ,
+        'verification_token' ,
+        'gender' ,
+        'admin' ,
     ];
 
     /**
@@ -25,15 +47,18 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+    public function transaction(){
+        return $this->hasMany(Transactions::class);
+    }
+    public function filledForm(){
+        return $this->hasMany(FilledForm::class);
+    }
+
 }
