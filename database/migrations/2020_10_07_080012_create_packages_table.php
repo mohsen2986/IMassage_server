@@ -15,6 +15,10 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
+            $table->string('image');
+            $table->integer('cost')->unsigned();
+            $table->integer('massage_id')->unsigned();
             $table->timestamps();
         });
     }

@@ -12,7 +12,6 @@ class Massage extends Model
     protected $fillable = [
         'name' ,
         'cost' ,
-        'cost' ,
         'length' ,
         'image' ,
     ];

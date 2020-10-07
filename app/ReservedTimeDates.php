@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReservedTimeDates extends Model
 {
+    const RESERVED = '1';
+    const FREE = '0';
     /**
      * @var array
      */
