@@ -19,6 +19,9 @@ class CreateQuestionsTable extends Migration
             $table->integer('question_type_id')->unsigned();
             $table->timestamps();
         });
+        Schema::table('questions' ,  function (BluePrint $table){
+            $table->foreign('question_type_id')->references('id')->on('question_types');
+        });
     }
 
     /**

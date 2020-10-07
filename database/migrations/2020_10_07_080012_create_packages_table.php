@@ -21,6 +21,9 @@ class CreatePackagesTable extends Migration
             $table->integer('massage_id')->unsigned();
             $table->timestamps();
         });
+        Schema::table('packages' , function (Blueprint $table) {
+            $table->foreign('massage_id')->references('id')->on('massages');
+        });
     }
 
     /**

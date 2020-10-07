@@ -19,6 +19,9 @@ class CreateTransactionsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
+        Schema::table('transactions' , function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
