@@ -15,12 +15,12 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->integer('reserved_time_dated_id')->unsigned();
-            $table->integer('massage_id')->unsigned();
-            $table->integer('package_id')->unsigned();
-//            $table->integer('offer_id')->unsigned()->nullable();  // todo check this
-            $table->integer('transactions_id')->unsigned();
+            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->unsignedBigInteger('reserved_time_dated_id')->unsigned();
+            $table->unsignedBigInteger('massage_id')->unsigned();
+            $table->unsignedBigInteger('package_id')->unsigned();
+//            $table->unsignedBigInteger('offer_id')->unsigned()->nullable();  // todo check this
+            $table->unsignedBigInteger('transactions_id')->unsigned();
             $table->timestamps();
         });
         Schema::table('orders' , function (BluePrint $table) {

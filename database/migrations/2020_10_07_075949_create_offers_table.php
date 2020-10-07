@@ -18,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->string('code');
             $table->date('date');
             $table->string('validate')->default(\App\Offers::VALIDATE);
-            $table->integer('offer')->unsigned();
+            $table->unsignedBigInteger('offer')->unsigned();
             $table->timestamps();
         });
     }

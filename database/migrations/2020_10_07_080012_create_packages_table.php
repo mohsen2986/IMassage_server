@@ -17,8 +17,8 @@ class CreatePackagesTable extends Migration
             $table->id();
             $table->string('description');
             $table->string('image');
-            $table->integer('cost')->unsigned();
-            $table->integer('massage_id')->unsigned();
+            $table->unsignedBigInteger('cost')->unsigned();
+            $table->unsignedBigInteger('massage_id')->unsigned();
             $table->timestamps();
         });
         Schema::table('packages' , function (Blueprint $table) {

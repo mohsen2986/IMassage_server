@@ -15,8 +15,8 @@ class CreateFilledQuesionsTable extends Migration
     {
         Schema::create('filled_quesions', function (Blueprint $table) {
             $table->id();
-            $table->integer('filled_form_id')->unsigned();
-            $table->integer('question_id')->unsigned();
+            $table->unsignedBigInteger('filled_form_id')->unsigned();
+            $table->unsignedBigInteger('question_id')->unsigned();
             $table->timestamps();
         });
         Schema::table('filled_quesions' , function (Blueprint $table) {

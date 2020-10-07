@@ -15,8 +15,8 @@ class CreateFilledFormsTable extends Migration
     {
         Schema::create('filled_forms', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->integer('form_id')->unsigned();
+            $table->unsignedBigunsignedBigInteger('user_id');
+            $table->unsignedBigunsignedBigInteger('form_id');
             $table->date('date');
             $table->timestamps();
         });
