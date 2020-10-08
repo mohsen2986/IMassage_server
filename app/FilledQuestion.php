@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FilledQuesion extends Model
+class filledQuestion extends Model
 {
     /**
      * @var array
