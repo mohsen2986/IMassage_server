@@ -15,15 +15,15 @@ class CreateFilledFormsTable extends Migration
     {
         Schema::create('filled_forms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigunsignedBigInteger('user_id');
-            $table->unsignedBigunsignedBigInteger('form_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('form_id');
             $table->date('date');
             $table->timestamps();
         });
 
         Schema::table('filled_forms' , function (BluePrint $table) {
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('form_id')->references('id')->on('forms');
+//            $table->foreign('form_id')->references('id')->on('forms');
         });
 
 

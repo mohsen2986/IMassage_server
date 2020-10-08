@@ -15,8 +15,9 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('time');
             $table->unsignedBigInteger('user_id')->unsigned();
-            $table->unsignedBigInteger('reserved_time_dated_id')->unsigned();
+            $table->unsignedBigInteger('reserved_time_date_id')->unsigned();
             $table->unsignedBigInteger('massage_id')->unsigned();
             $table->unsignedBigInteger('package_id')->unsigned();
 //            $table->unsignedBigInteger('offer_id')->unsigned()->nullable();  // todo check this
@@ -24,10 +25,10 @@ class CreateOrdersTable extends Migration
             $table->timestamps();
         });
         Schema::table('orders' , function (BluePrint $table) {
-            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates');
+//            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates');
             $table->foreign('massage_id')->references('id')->on('massages');
-            $table->foreign('package_id')->references('id')->on('packages');
-            $table->foreign('transactions_id')->references('id')->on('transactions');
+//            $table->foreign('package_id')->references('id')->on('packages');
+//            $table->foreign('transactions_id')->references('id')->on('transactions');
         });
     }
 

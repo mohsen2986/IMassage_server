@@ -18,6 +18,9 @@ class CreateFormsTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+        Schema::table('filled_forms' , function (BluePrint $table) {
+            $table->foreign('form_id')->references('id')->on('forms');
+        });
     }
 
     /**

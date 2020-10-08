@@ -33,6 +33,9 @@ class CreateReservedTimeDatesTable extends Migration
             $table->string('h22')->default(ReservedTimeDates::FREE);
             $table->timestamps();
         });
+        Schema::table('orders' , function (BluePrint $table) {
+            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates');
+        });
     }
 
     /**

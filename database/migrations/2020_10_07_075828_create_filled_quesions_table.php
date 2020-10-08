@@ -13,15 +13,15 @@ class CreateFilledQuesionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('filled_quesions', function (Blueprint $table) {
+        Schema::create('filled_questions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('filled_form_id')->unsigned();
             $table->unsignedBigInteger('question_id')->unsigned();
             $table->timestamps();
         });
-        Schema::table('filled_quesions' , function (Blueprint $table) {
+        Schema::table('filled_questions' , function (Blueprint $table) {
             $table->foreign('filled_form_id')->references('id')->on('filled_forms');
-            $table->foreign('question_id')->references('id')->on('questions');
+//            $table->foreign('question_id')->references('id')->on('questions');
         });
     }
 

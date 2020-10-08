@@ -15,14 +15,18 @@ class CreatePackagesTable extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('description');
-            $table->string('image');
+            $table->string('image')->default('unknown');
             $table->unsignedBigInteger('cost')->unsigned();
             $table->unsignedBigInteger('massage_id')->unsigned();
             $table->timestamps();
         });
         Schema::table('packages' , function (Blueprint $table) {
             $table->foreign('massage_id')->references('id')->on('massages');
+        });
+        Schema::table('orders' , function (BluePrint $table) {
+            $table->foreign('package_id')->references('id')->on('packages');
         });
     }
 

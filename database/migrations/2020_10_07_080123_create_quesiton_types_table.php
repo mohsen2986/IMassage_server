@@ -13,10 +13,14 @@ class CreateQuesitonTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('Question_type', function (Blueprint $table) {
+        Schema::create('question_types', function (Blueprint $table) {
             $table->id();
             $table->string('type');
             $table->timestamps();
+        });
+
+        Schema::table('questions' ,  function (BluePrint $table){
+            $table->foreign('question_type_id')->references('id')->on('question_types');
         });
     }
 
