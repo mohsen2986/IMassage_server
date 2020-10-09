@@ -34,7 +34,7 @@ class CreateReservedTimeDatesTable extends Migration
             $table->timestamps();
         });
         Schema::table('orders' , function (BluePrint $table) {
-            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates');
+            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates')->onDelete('cascade');
         });
     }
 

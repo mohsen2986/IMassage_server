@@ -20,10 +20,10 @@ class CreateTransactionsTable extends Migration
             $table->timestamps();
         });
         Schema::table('transactions' , function (Blueprint $table) {
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onDelete('cascade');
         });
         Schema::table('orders' , function (BluePrint $table) {
-            $table->foreign('transactions_id')->references('id')->on('transactions')->onDelete('cascade');
+            $table->foreign('transactions_id')->references('id')->on('transactions')->onDelete('cascade')->onDelete('cascade');
         });
     }
 

@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
         });
         Schema::table('orders' , function (BluePrint $table) {
 //            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates');
-            $table->foreign('massage_id')->references('id')->on('massages');
+            $table->foreign('massage_id')->references('id')->on('massages')->onDelete('cascade');
 //            $table->foreign('package_id')->references('id')->on('packages');
 //            $table->foreign('transactions_id')->references('id')->on('transactions');
         });

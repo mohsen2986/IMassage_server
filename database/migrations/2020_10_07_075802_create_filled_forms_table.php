@@ -22,7 +22,7 @@ class CreateFilledFormsTable extends Migration
         });
 
         Schema::table('filled_forms' , function (BluePrint $table) {
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 //            $table->foreign('form_id')->references('id')->on('forms');
         });
 

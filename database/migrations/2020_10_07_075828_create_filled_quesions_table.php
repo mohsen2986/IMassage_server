@@ -20,7 +20,7 @@ class CreateFilledQuesionsTable extends Migration
             $table->timestamps();
         });
         Schema::table('filled_questions' , function (Blueprint $table) {
-            $table->foreign('filled_form_id')->references('id')->on('filled_forms');
+            $table->foreign('filled_form_id')->references('id')->on('filled_forms')->onDelete('cascade');
 //            $table->foreign('question_id')->references('id')->on('questions');
         });
     }
