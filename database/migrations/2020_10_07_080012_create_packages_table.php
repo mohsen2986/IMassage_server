@@ -23,10 +23,10 @@ class CreatePackagesTable extends Migration
             $table->timestamps();
         });
         Schema::table('packages' , function (Blueprint $table) {
-            $table->foreign('massage_id')->references('id')->on('massages');
+            $table->foreign('massage_id')->references('id')->on('massages')->onDelete('cascade');
         });
         Schema::table('orders' , function (BluePrint $table) {
-            $table->foreign('package_id')->references('id')->on('packages');
+            $table->foreign('package_id')->references('id')->on('packages')->onDelete('cascade');
         });
     }
 
