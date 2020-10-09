@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Massage;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MassageController extends Controller
+class MassageController extends ApiController
 {
     /**
      * Display a listing of the resource.

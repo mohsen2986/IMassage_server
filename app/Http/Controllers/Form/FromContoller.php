@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Form;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class FromContoller extends Controller
+class FromContoller extends ApiController
 {
     /**
      * Display a listing of the resource.

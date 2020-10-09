@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Packages;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PckagesConroller extends Controller
+class PckagesConroller extends ApiController
 {
     /**
      * Display a listing of the resource.

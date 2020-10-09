@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Question;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class QuestionController extends Controller
+class QuestionController extends ApiController
 {
     /**
      * Display a listing of the resource.
