@@ -21,4 +21,7 @@ class Offers extends Model
     public function order(){
         return $this->hasMany(Order::class);
     }
+    public function usedOffers(){
+        return $this->belongsTo(UsedOffers::class);
+    }
 }

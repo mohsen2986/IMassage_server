@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    const OFFER_USED = '1';
+    const UNUSED_OFFER = '0';
     /**
      * @var array
      */
@@ -15,7 +17,7 @@ class Order extends Model
         'reserved_time_dates_id' ,
         'massage_id' ,
         'package_id' ,
-        'offer_id' ,
+        'offer' ,
         'transactions_id',
     ];
     public function reservedTimeDates(){
@@ -35,5 +37,8 @@ class Order extends Model
     }
     public function transactions(){
         return $this->belongsTo(Transactions::class);
+    }
+    public function usedOffers(){
+        return $this->belongsTo(UsedOffers::class);
     }
 }
