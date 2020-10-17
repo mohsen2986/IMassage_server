@@ -11,6 +11,7 @@ use App\Question;
 use App\QuestionType;
 use App\ReservedTimeDates;
 use App\Transactions;
+use App\UsedOffers;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         Question::truncate();
         ReservedTimeDates::truncate();
         Transactions::truncate();
+        UsedOffers::truncate();
 
         User::flushEventListeners();
         Form::flushEventListeners();
@@ -50,19 +52,21 @@ class DatabaseSeeder extends Seeder
         Question::flushEventListeners();
         ReservedTimeDates::flushEventListeners();
         Transactions::flushEventListeners();
+        UsedOffers::flushEventListeners();
 
         $usersQuantity = 100;
         $filledFormQuantity = 200;
         $filledQuestionQuantity = 100;
         $formQuantity = 10;
         $massageQuantity = 10;
-        $offersQuantity = 10;
+        $offersQuantity = 20;
         $orderQuantity = 100;
         $packagesQuantity = 20;
         $questionTypeQuantity = 2;
         $questionQuantity = 10;
         $reservedTimeDateQuantity = 20;
         $transactionsQuantity = 20;
+        $usedOfferQuantity = 20;
 
         factory(User::class, $usersQuantity)->create();
         factory(Form::class, $formQuantity)->create();
@@ -76,5 +80,6 @@ class DatabaseSeeder extends Seeder
         factory(ReservedTimeDates::class, $reservedTimeDateQuantity)->create();
         factory(Transactions::class, $transactionsQuantity)->create();
         factory(Order::class, $orderQuantity)->create();
+        factory(UsedOffers::class, $usedOfferQuantity)->create();
     }
 }

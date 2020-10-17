@@ -13,6 +13,7 @@ use App\Question;
 use App\QuestionType;
 use App\ReservedTimeDates;
 use App\Transactions;
+use App\UsedOffers;
 use App\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -82,7 +83,7 @@ $factory->define(Offers::class , function (Faker $faker){
    return [
        'code' => $faker->randomNumber(6),
        'date' => $faker->date(),
-       'validate' => $faker->randomElement([Offers::VALIDATE , Offers::INVALIDATE]),
+       'validate' => Offers::VALIDATE ,
        'offer' => $faker->randomNumber(2),
    ];
 });
@@ -93,7 +94,7 @@ $factory->define(Order::class , function (Faker $faker){
         'reserved_time_date_id'=> ReservedTimeDates::all()->random()->id ,
         'massage_id' => Massage::all()->random()->id,
         'package_id' => Packages::all()->random()->id,
-//        'offer_id' => Offers::all()->random()->id,
+        'offer' => Order::UNUSED_OFFER ,
         'transactions_id' => Transactions::all()->random()->id,
     ];
 });
@@ -141,4 +142,19 @@ $factory->define(Transactions::class, function (Faker $faker){
        'amount' => $faker->randomNumber(5),
        'user_id' => User::all()->random()->id,
    ];
+});
+
+$factory->define(UsedOffers::class , function (Faker $faker){
+    $order = Order::all()->where('offer' ,'=' , Order::UNUSED_OFFER)->random();
+    $order->offer = Order::OFFER_USED;
+    $order->save();
+    $offer = Offers::all()->where('validate' , '=' , Offers::VALIDATE)->random();
+    $offer->validate = Offers::INVALIDATE;
+    $offer->save();
+
+    return [
+        'order_id' => $order->id,
+        'offer_id' => $offer->id,
+        'date' => $faker->date(),
+    ];
 });
