@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger('reserved_time_date_id')->unsigned();
             $table->unsignedBigInteger('massage_id')->unsigned();
             $table->unsignedBigInteger('package_id')->unsigned();
-//            $table->unsignedBigInteger('offer_id')->unsigned()->nullable();  // todo check this
+            $table->string('offer');
             $table->unsignedBigInteger('transactions_id')->unsigned();
             $table->timestamps();
         });

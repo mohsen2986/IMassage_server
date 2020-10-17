@@ -1,5 +1,6 @@
 <?php
 
+use App\Offers;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +18,7 @@ class CreateOffersTable extends Migration
             $table->id();
             $table->string('code');
             $table->date('date');
-            $table->string('validate')->default(\App\Offers::VALIDATE);
+            $table->string('validate')->default(Offers::VALIDATE);
             $table->unsignedBigInteger('offer')->unsigned();
             $table->timestamps();
         });
