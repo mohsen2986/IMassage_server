@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::resource('packages' , 'Packages\PackagesController' , ['except' => ['create' ,  'edit']]);
 Route::resource('questionType' , 'Question\QuestionTypeController' , ['only' => ['index' , 'store' , 'destroy']]);
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
