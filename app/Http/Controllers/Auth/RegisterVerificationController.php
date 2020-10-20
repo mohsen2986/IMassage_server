@@ -8,12 +8,10 @@ use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
-class LoginVerificationController extends Controller
+class RegisterVerificationController extends Controller
 {
-
 
     /**
      * Store a newly created resource in storage.
