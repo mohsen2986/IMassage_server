@@ -19,6 +19,8 @@ class User extends Authenticatable
     const MALE_GENDER = 'true';
     const FEMALE_GENDER = 'false';
 
+    const FORM_FILLED = 'true';
+    const FORM_NOT_FILLED = 'false';
     /**
      * The attributes that are mass assignable.
      *
@@ -40,6 +42,7 @@ class User extends Authenticatable
         'verification_token' ,
         'gender' ,
         'admin' ,
+        'filled_all_forms'
     ];
 
     /**
@@ -50,8 +53,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'verified' ,
+        'admin'
     ];
 
+    // relations
     public function orders(){
         return $this->hasMany(Order::class);
     }
@@ -61,6 +67,10 @@ class User extends Authenticatable
     public function filledForm(){
         return $this->hasMany(FilledForm::class);
     }
+    public function smsTokens(){
+        return $this->hasMany(SmsToken::class);
+    }
+    // functions
     public static function generateToken(){
         return Str::random(40);
     }
