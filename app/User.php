@@ -6,10 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable , HasApiTokens;
     const VERIFIED_USER = '1';
     const UNVERIFIED_USER = '0';
 
@@ -73,6 +74,16 @@ class User extends Authenticatable
     // functions
     public static function generateToken(){
         return Str::random(40);
+    }
+
+    /**
+     * Find the user identified by the given $identifier.
+     *
+     * @param $identifier email|phone
+     * @return mixed
+     */
+    public function findForPassport($identifier) {
+        return User::orWhere('phone', $identifier)->first();
     }
 
 }
