@@ -19,6 +19,8 @@ Route::resource('questionType' , 'Question\QuestionTypeController' , ['only' => 
 // login user
 Route::resource('login' , 'Auth\LoginController' , ['only' => ['store']]);
 Route::resource('loginVerify' , 'Auth\LoginVerificationController' , ['only' => ['store']]);
+Route::post('refresh' , 'Auth\LoginController@refresh');
+Route::post('logout' , 'Auth\LoginController@logout');
 // register user
 Route::resource('register' , 'Auth\RegisterController' , ['only' => ['store']]);
 Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['only' => ['store']]);
