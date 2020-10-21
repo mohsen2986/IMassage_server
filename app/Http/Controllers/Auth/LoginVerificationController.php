@@ -9,11 +9,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
+use Laravel\Passport\Client;
 
 class LoginVerificationController extends Controller
 {
-
+    private $client;
+    public function __construct(){
+        $this->client = Client::find(2);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -26,7 +31,8 @@ class LoginVerificationController extends Controller
     {
         $rules = [
             'token' => 'required' ,
-            'code' => 'required'
+            'code' => 'required' ,
+            'password' => 'required'
         ];
         $this->validate($request , $rules);
 
@@ -39,11 +45,26 @@ class LoginVerificationController extends Controller
                     $user = $smsToken->user;
                     $user->verified = User::VERIFIED_USER;
                     $user->save();
-
-                    $response = [
-                        "status" => "verified"
+                    // passport service
+                    $params = [
+                        'grant_type' => 'password' ,
+                        'client_id' => $this->client->id ,
+                        'client_secret' => $this->client->secret ,
+                        'username' => $user->phone ,
+                        'password' => request('password') ,
+                        'scope' => '*'
                     ];
-                    return response()->json($response , 200);
+
+                    $request->request->add($params);
+
+                    $proxy = Request::create('oauth/token' , 'POST');
+
+                    return Route::dispatch($proxy);
+
+//                    $response = [
+//                        "status" => "verified"
+//                    ];
+//                    return response()->json($response , 200);
                 } // code invalid
                 else{
                     $response = [

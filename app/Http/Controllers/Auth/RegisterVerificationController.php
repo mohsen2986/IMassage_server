@@ -8,10 +8,16 @@ use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
+use Laravel\Passport\Client;
 
 class RegisterVerificationController extends Controller
 {
+    private $client;
+    public function __construct(){
+        $this->client = Client::find(2);
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -24,24 +30,39 @@ class RegisterVerificationController extends Controller
     {
         $rules = [
             'token' => 'required' ,
-            'code' => 'required'
+            'code' => 'required' ,
+            'password' => 'required' ,
         ];
         $this->validate($request , $rules);
 
         if($smsToken = SmsToken::where('token' , '=' , $request['token'])->first()){
             if($smsToken->isValid()){
                 if($smsToken->code === $request['code']){
-                    $smsToken->used = SmsToken::USED;
+//                    $smsToken->used = SmsToken::USED;
                     $smsToken->save();
                     // get user and VERIFIED USER
                     $user = $smsToken->user;
                     $user->verified = User::VERIFIED_USER;
                     $user->save();
 
-                    $response = [
-                        "status" => "verified"
+
+//                    $response = [
+//                        "status" => "verified"
+//                    ];
+//                    return response()->json($response , 200);
+                    // passport service
+                    $params = [
+                        'grant_type' => 'password' ,
+                        'client_id' => $this->client->id ,
+                        'client_secret' => $this->client->secret ,
+                        'username' => $user->phone ,
+                        'password' => request('password') ,
+                        'scope' => '*'
                     ];
-                    return response()->json($response , 200);
+                    $request->request->add($params);
+                    $proxy = Request::create('oauth/token' , 'POST');
+                    return Route::dispatch($proxy);
+
                 } // code invalid
                 else{
                     $response = [
