@@ -24,6 +24,8 @@ Route::post('logout' , 'Auth\LoginController@logout');
 // register user
 Route::resource('register' , 'Auth\RegisterController' , ['only' => ['store']]);
 Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['only' => ['store']]);
+// main page
+Route::post('mainPage' , 'MainPage\MainPageController@mainPageInformation');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
