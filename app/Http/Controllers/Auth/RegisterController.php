@@ -34,7 +34,7 @@ class RegisterController extends Controller
         $this->validate($request , $rules);
         // get and maintain the request
         $data = $request->all();
-        $data['password'] = bcrypt("mohsen_alak");
+        $data['password'] = bcrypt(request('password'));
         // add user to DB
         $user = User::create($data);
         // send sms and verification token
