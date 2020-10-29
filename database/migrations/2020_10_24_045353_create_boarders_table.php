@@ -16,7 +16,7 @@ class CreateBoardersTable extends Migration
         Schema::create('boarders', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('photo');
+            $table->string('image');
             $table->string('description');
             $table->timestamps();
         });
