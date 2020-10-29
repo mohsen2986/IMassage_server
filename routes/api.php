@@ -26,6 +26,12 @@ Route::resource('register' , 'Auth\RegisterController' , ['only' => ['store']]);
 Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['only' => ['store']]);
 // main page
 Route::post('mainPage' , 'MainPage\MainPageController@mainPageInformation');
+// AbouUs
+Route::resource('aboutUs' , 'AboutUs\AboutUsController' , ['only' => ['index' , 'store']]);
+// Boarder
+Route::resource('boarder' , 'Boarder\BoarderController' , ['only' => ['index' , 'store']]);
+// Massage
+Route::resource('massage' , 'Massage\MassageController' , ['only' => ['index' , 'store']]);
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Massage;
+namespace App\Http\Controllers\AboutUs;
 
+use App\AboutUs;
+use App\Boarder;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
-use App\Massage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 
-class MassageController extends ApiController
+class AboutUsController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,8 @@ class MassageController extends ApiController
      */
     public function index()
     {
-        return $this->showAll(Massage::all());
+        $datas = AboutUs::all();
+        return $this->showAll($datas);
     }
 
 
@@ -33,27 +34,26 @@ class MassageController extends ApiController
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required',
-            'cost' => 'required',
-            'length' => 'required',
-            'image' => 'required|image',
+            'description' => 'required',
+            'image' => 'required|image'
         ];
         $this->validate($request , $rules);
+
         // save data
-        $data = request()->all();
-        // store image
+        $data = $request->all();
+        // sort image
         $data['image'] = request('image')->store('');
         // store data
-        $massage = Massage::create($data);
+        $product = AboutUs::create($data);
 
-        return $this->showOne($massage);
+        return $this->showOne($product);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -64,7 +64,7 @@ class MassageController extends ApiController
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -76,7 +76,7 @@ class MassageController extends ApiController
      *
      * @param Request $request
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -87,7 +87,7 @@ class MassageController extends ApiController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
