@@ -7,7 +7,6 @@ use App\SmsToken;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Client;
@@ -38,7 +37,7 @@ class RegisterVerificationController extends Controller
         if($smsToken = SmsToken::where('token' , '=' , $request['token'])->first()){
             if($smsToken->isValid()){
                 if($smsToken->code === $request['code']){
-//                    $smsToken->used = SmsToken::USED;
+                    $smsToken->used = SmsToken::USED;
                     $smsToken->save();
                     // get user and VERIFIED USER
                     $user = $smsToken->user;
