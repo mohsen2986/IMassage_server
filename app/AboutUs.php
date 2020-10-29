@@ -11,6 +11,6 @@ class AboutUs extends Model
      */
     protected $fillable = [
         'description' ,
-        'photo'
+        'image' ,
     ];
 }

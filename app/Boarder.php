@@ -11,7 +11,7 @@ class Boarder extends Model
      */
     protected $fillable = [
         'title' ,
-        'photo' ,
+        'image' ,
         'description'
     ];
 
