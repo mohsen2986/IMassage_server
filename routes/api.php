@@ -24,14 +24,25 @@ Route::post('logout' , 'Auth\LoginController@logout');
 // register user
 Route::resource('register' , 'Auth\RegisterController' , ['only' => ['store']]);
 Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['only' => ['store']]);
-// main page
-Route::post('mainPage' , 'MainPage\MainPageController@mainPageInformation');
-// AbouUs
+
+// AboutUs
 Route::resource('aboutUs' , 'AboutUs\AboutUsController' , ['only' => ['index' , 'store']]);
 // Boarder
 Route::resource('boarder' , 'Boarder\BoarderController' , ['only' => ['index' , 'store']]);
 // Massage
 Route::resource('massage' , 'Massage\MassageController' , ['only' => ['index' , 'store']]);
+
+// Auth
+Route::middleware('auth:api')->group(function (){
+    // logout  // todo test
+    Route::post('logout' , 'Login\LoginController@logout');
+
+    // order
+    Route::resource('order' , 'Order\OrderController' , ['only' => ['store']]);
+
+    // main page
+    Route::post('mainPage' , 'MainPage\MainPageController@mainPageInformation');
+});
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
