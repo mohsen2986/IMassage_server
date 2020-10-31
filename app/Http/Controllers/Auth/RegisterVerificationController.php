@@ -14,6 +14,7 @@ use Laravel\Passport\Client;
 class RegisterVerificationController extends Controller
 {
     private $client;
+
     public function __construct(){
         $this->client = Client::find(2);
     }

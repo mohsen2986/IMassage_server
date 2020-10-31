@@ -14,9 +14,16 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Request;
+use Laravel\Passport\Client;
 
 class LoginController extends Controller
 {
+    private $clinet;
+
+    public function __construct(){
+        $this->clinet = Client::find(2);
+    }
+
     // todo remember that invalid previous sms tokens if user resend
 
     /**
