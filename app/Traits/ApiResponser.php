@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
+use PhpParser\Node\Expr\Array_;
 
 
 trait ApiResponser
@@ -26,6 +27,13 @@ trait ApiResponser
             return $this->successResponse(['datas' => $collection], $code);
         }
         return $this->successResponse(['datas' => $collection], $code);
+    }
+    protected function showList(Array $array , $code = 200){
+        // todo implement for empty array
+//        if ($array->) {
+//            return $this->successResponse(['datas' => $array], $code);
+//        }
+        return $this->successResponse(['datas' => $array], $code);
     }
 
     protected function showOne(Model $instance, $code = 200)
