@@ -4,11 +4,12 @@ namespace App\Http\Controllers\MainPage;
 
 use App\AboutUs;
 use App\Boarder;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Massage;
 use Illuminate\Http\Request;
 
-class MainPageController extends Controller
+class MainPageController extends ApiController
 {
     public function mainPageInformation(){
 
@@ -20,6 +21,6 @@ class MainPageController extends Controller
         $data['aboutUs'] = $aboutUs;
         $data['boarders'] = $boarders;
 
-        return Response()->json($data , 200);
+        return $this->showList($data);
     }
 }
