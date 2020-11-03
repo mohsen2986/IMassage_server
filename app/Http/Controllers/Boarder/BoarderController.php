@@ -8,8 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use PhpParser\JsonDecoder;
+use Psy\Util\Json;
 
 class BoarderController extends ApiController
 {
@@ -21,16 +23,6 @@ class BoarderController extends ApiController
     public function index()
     {
         return $this->showAll(Boarder::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-
     }
 
     /**
@@ -61,45 +53,54 @@ class BoarderController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Boarder $boarder
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(Boarder $boarder)
     {
-        //
+        return $this->showOne($boarder);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  int  $id
-     * @return Response
+     * @param  Boarder $boarder
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Boarder $boarder)
     {
-        //
+        $boarder->fill($request->only([
+            'title',
+            'description',
+        ]));
+        if($request->hasFile('image')){
+            // delete previous image
+            Storage::delete($boarder->image);
+            // save new image
+            $boarder->image = request('image')->store('');
+        }
+        if($boarder->isClean()){
+            return $this->errorResponse('you need to specify a different value to update' , 422);
+        }
+        // save the boarder
+        $boarder->save();
+        return $this->showOne($boarder);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return Response
+     * @param Boarder $boarder
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Boarder $boarder)
     {
-        //
+        $boarder->delete();
+        Storage::delete($boarder->image);
+
+        return $this->showOne($boarder);
     }
 }
