@@ -29,7 +29,7 @@ Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['onl
 Route::resource('aboutUs' , 'AboutUs\AboutUsController' , ['only' => ['index' , 'store']]);
 
 // Massage
-Route::resource('massage' , 'Massage\MassageController' , ['only' => ['index' , 'store']]);
+Route::resource('massage' , 'Massage\MassageController' , ['only' => ['index' , 'store' , 'show' , 'update' , 'destroy' ]]);
 
 // Auth
 Route::middleware('auth:api')->group(function (){

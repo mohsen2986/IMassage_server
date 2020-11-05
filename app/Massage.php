@@ -4,6 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Massage
+ * @package App
+ * @property mixed name
+ * @property mixed cost
+ * @property mixed length
+ * @property mixed image
+ */
 class Massage extends Model
 {
     /**
