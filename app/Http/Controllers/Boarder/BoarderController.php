@@ -99,6 +99,7 @@ class BoarderController extends ApiController
     public function destroy(Boarder $boarder)
     {
         $boarder->delete();
+        // delete image
         Storage::delete($boarder->image);
 
         return $this->showOne($boarder);

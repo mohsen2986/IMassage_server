@@ -27,8 +27,7 @@ Route::resource('registerVerify' , 'Auth\RegisterVerificationController' , ['onl
 
 // AboutUs
 Route::resource('aboutUs' , 'AboutUs\AboutUsController' , ['only' => ['index' , 'store']]);
-// Boarder
-Route::resource('boarder' , 'Boarder\BoarderController' , ['only' => ['index' , 'store']]);
+
 // Massage
 Route::resource('massage' , 'Massage\MassageController' , ['only' => ['index' , 'store']]);
 
@@ -38,11 +37,17 @@ Route::middleware('auth:api')->group(function (){
     Route::post('logout' , 'Login\LoginController@logout');
 
     // order
-    Route::resource('order' , 'Order\OrderController' , ['only' => ['store']]);
+//    Route::resource('order' , 'Order\OrderController' , ['only' => ['store']]);
 
     // main page
     Route::post('mainPage' , 'MainPage\MainPageController@mainPageInformation');
+    // Boarder
+    Route::resource('boarder' , 'Boarder\BoarderController' , ['only' => ['index' , 'store' , 'show' , 'update' , 'destroy']]);
+
 });
+Route::resource('transaction' , 'Transactions\TransactionsController' , ['only' => ['store']]);
+Route::resource('order' , 'Order\OrderController' , ['only' => ['store']]);
+Route::resource('reservedTimeDates' , 'ReservedTimeDates\ReservedTimeDatesController' );
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
