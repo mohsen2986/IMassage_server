@@ -84,7 +84,7 @@ class MassageController extends ApiController
             $massage->image  = request('image')->store('');
         }
         if($massage->isClean()){
-            return $this->errorResponse('yout need to specify to diffrend value' , 422);
+            return $this->errorResponse('you need to specify to different value' , 422);
         }
         // save the new massage
         $massage->save();
