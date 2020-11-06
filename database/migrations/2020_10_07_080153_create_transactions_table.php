@@ -1,5 +1,6 @@
 <?php
 
+use App\Transactions;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,9 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('amount')->unsigned();
             $table->unsignedBigInteger('user_id')->unsigned();
+            $table->string('ref_id');
+            $table->string('is_used')->default(Transactions::IS_NOT_USED);
+            $table->string('valid_transaction')->default(Transactions::UNVALID);
             $table->timestamps();
         });
         Schema::table('transactions' , function (Blueprint $table) {
