@@ -17,7 +17,7 @@ class QuestionType extends Model
     protected $fillable=[
         'type' ,
     ];
-
+    // RELATIONS
     public function question(){
         return $this->hasMany(Question::class);
     }
