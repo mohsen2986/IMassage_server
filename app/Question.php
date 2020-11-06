@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Question
+ * @package App
+ * @property mixed question
+ * @property mixed question_type_id
+ */
 class Question extends Model
 {
     /**
@@ -13,6 +19,7 @@ class Question extends Model
         'question' ,
         'question_type_id'
     ];
+    // RELATIONS
     public function questionType(){
         return $this->hasOne(QuestionType::class);
     }
