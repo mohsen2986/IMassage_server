@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateFilledQuesionsTable extends Migration
@@ -32,6 +33,10 @@ class CreateFilledQuesionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('filled_quesions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('filled_forms');
+        Schema::dropIfExists('questions');
+        Schema::dropIfExists('filled_questions');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

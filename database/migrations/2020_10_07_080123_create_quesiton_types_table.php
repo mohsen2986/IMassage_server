@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateQuesitonTypesTable extends Migration
@@ -31,6 +32,8 @@ class CreateQuesitonTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quesiton_types');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('question_types');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

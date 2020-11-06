@@ -30,6 +30,9 @@ class CreateFormsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('forms');
+        Schema::dropIfExists('filled_form');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
