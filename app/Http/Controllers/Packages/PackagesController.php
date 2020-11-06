@@ -7,6 +7,7 @@ use App\Packages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class PackagesController extends ApiController
@@ -35,12 +36,17 @@ class PackagesController extends ApiController
         $rules =[
             'name' => 'required',
             'description' => 'required',
-            'image' => 'required',
+            'image' => 'required|image',
             'cost' => 'required',
             'massage_id' => 'required',
         ];
         $this->validate($request , $rules);
-        $newPackage = Packages::create($request->all());
+        // store data
+        $data = request()->all();
+        // save image
+        $data['image'] = request('image')->store('');
+        // store package to the database
+        $newPackage = Packages::create($data);
 
         return $this->showOne($newPackage);
     }
@@ -73,6 +79,12 @@ class PackagesController extends ApiController
             'cost' ,
             'massage_id' ,
         ]));
+        if($request->hasFile('image')){
+            // delete previous image
+            Storage::delete($package->image);
+            // store new image
+            $package->image = request('image')->store('');
+        }
         if($package->isClean()){
             return $this->errorResponse('You need to specify any different value to update' , 442);
         }
@@ -91,6 +103,9 @@ class PackagesController extends ApiController
     public function destroy(Packages $package)
     {
         $package->delete();
+        // delete image from database
+        Storage::delete($package->image);
+
         return $this->showOne($package);
     }
 }

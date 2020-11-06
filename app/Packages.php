@@ -4,10 +4,21 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Packages
+ * @package App
+ * @property mixed name
+ * @property mixed description
+ * @property mixed image
+ * @property mixed cost
+ * @property mixed massage_id
+ */
 class Packages extends Model
 {
+
     /**
      * @var array
+     *
      */
     protected $fillable = [
         'name' ,
