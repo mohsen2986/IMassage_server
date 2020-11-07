@@ -4,6 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class FilledForm
+ * @package App
+ * @property mixed user_id
+ * @property mixed form_id
+ * @property mixed date
+ */
 class FilledForm extends Model
 {
     /**
@@ -14,7 +21,7 @@ class FilledForm extends Model
         'form_id' ,
         'date' ,
     ];
-
+    // RELATIONS
     public function user(){
         return $this->belongsTo(User::class);
     }

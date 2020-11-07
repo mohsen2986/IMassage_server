@@ -2,85 +2,63 @@
 
 namespace App\Http\Controllers\Form;
 
+use App\FilledForm;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 
 class FilledFormController extends ApiController
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
-        //
+        return $this->showAll(FilledForm::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'form_id' => 'required',
+        ];
+
+        $this->validate($request , $rules);
+        // store data
+        $data = request()->all();
+        // get date
+        $temp = explode(' ', jdate());
+        $data['date'] = $temp[0];
+        // TODO GET USER ID FROM AUTH  user_id
+        $data['user_id'] = 1;
+        // TODO CHECK FORM EXIST
+        // store data to the database
+        $filledForm = FilledForm::create($data);
+
+        return $this->showOne($filledForm);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  FilledForm $filledForm
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(FilledForm $filledForm)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return $this->showOne($filledForm);
     }
 }
