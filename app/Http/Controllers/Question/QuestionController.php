@@ -34,7 +34,8 @@ class QuestionController extends ApiController
     {
         $rules =[
             'question' => 'required',
-            'question_type_id'=> 'required'
+            'question_type_id'=> 'required' ,
+            'form_id'=> 'required'
         ];
         $this->validate($request, $rules);
         // check that question_type_id exist
