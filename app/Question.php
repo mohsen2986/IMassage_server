@@ -17,7 +17,8 @@ class Question extends Model
      */
     protected $fillable = [
         'question' ,
-        'question_type_id'
+        'question_type_id' ,
+        'form_id' ,
     ];
     // RELATIONS
     public function questionType(){
