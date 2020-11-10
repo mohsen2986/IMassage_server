@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Massage;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Massage;
+use App\Packages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -37,6 +38,7 @@ class MassageController extends ApiController
             'cost' => 'required',
             'length' => 'required',
             'image' => 'required',
+            'description' => 'required'
         ];
         $this->validate($request , $rules);
         // store data
@@ -45,6 +47,14 @@ class MassageController extends ApiController
         $data['image'] = request('image')->store('');
         // store massage to database
         $massage = Massage::create($data);
+        // create default package for massage
+        $packageData['name'] = 'معمولی';
+        $packageData['description'] = 'معمولی';
+        $packageData['image'] = $massage->image;
+        $packageData['cost'] = $massage->cost;
+        $packageData['massage_id'] = $massage->id;
+        // create and store new package in DB
+        $package = Packages::create($packageData);
 
         return $this->showOne($massage);
     }
@@ -82,6 +92,11 @@ class MassageController extends ApiController
             Storage::delete($massage->image);
             // store new image
             $massage->image  = request('image')->store('');
+        }
+        if(request('cost')){
+            $package = $massage->package->first();
+            $package->cost = request('cost');
+            $package->save();
         }
         if($massage->isClean()){
             return $this->errorResponse('you need to specify to different value' , 422);

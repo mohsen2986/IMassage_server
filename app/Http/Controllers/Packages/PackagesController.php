@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Packages;
 
 use App\Http\Controllers\ApiController;
+use App\Massage;
 use App\Packages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -40,15 +41,24 @@ class PackagesController extends ApiController
             'cost' => 'required',
             'massage_id' => 'required',
         ];
-        $this->validate($request , $rules);
+        $this->validate($request, $rules);
+
+        $massage = Massage::find(request('massage_id'));
+        // check massage exist
+        if($massage){
         // store data
         $data = request()->all();
         // save image
         $data['image'] = request('image')->store('');
+        // calculate the cost
+        $data['cost'] = ($massage->cost + request('cost'));
         // store package to the database
         $newPackage = Packages::create($data);
 
         return $this->showOne($newPackage);
+        }
+        // the massage not valid
+        return $this->errorResponse('the massage is not valid' , 422);
     }
 
     /**
@@ -77,8 +87,11 @@ class PackagesController extends ApiController
             'description' ,
             'image' ,
             'cost' ,
-            'massage_id' ,
         ]));
+        if(request('cost')){
+            $massage = $package->massage;
+            $package->cost = ($massage->cost + request('cost'));
+        }
         if($request->hasFile('image')){
             // delete previous image
             Storage::delete($package->image);
@@ -94,6 +107,7 @@ class PackagesController extends ApiController
     }
 
     /**
+    /*
      * Remove the specified resource from storage.
      *
      * @param Packages $package

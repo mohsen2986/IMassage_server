@@ -22,7 +22,9 @@ class Massage extends Model
         'cost' ,
         'length' ,
         'image' ,
+        'description' ,
     ];
+    // RELATIONS
     public function package(){
         return $this->hasMany(Packages::class);
     }

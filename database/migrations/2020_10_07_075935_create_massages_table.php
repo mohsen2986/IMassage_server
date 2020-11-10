@@ -19,6 +19,7 @@ class CreateMassagesTable extends Migration
             $table->unsignedBigInteger('cost');
             $table->unsignedBigInteger('length');
             $table->string('image')->default('unknown');
+            $table->string('description' , 1000);
             $table->timestamps();
         });
     }

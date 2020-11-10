@@ -27,6 +27,7 @@ class Packages extends Model
         'cost' ,
         'massage_id'
     ];
+    // RELATIONS
     public function massage(){
         return $this->belongsTo(Massage::class);
     }
