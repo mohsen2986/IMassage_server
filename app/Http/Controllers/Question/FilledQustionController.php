@@ -34,6 +34,7 @@ class FilledQustionController extends ApiCOntroller
         $rules = [
             'filled_form_id' => 'required',
             'question_id' => 'required',
+            'answer' => 'required'
         ];
         $this->validate($request , $rules);
         // TODO CHECK FILLED_FORM AND QUESTION ID EXIST

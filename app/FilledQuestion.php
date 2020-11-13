@@ -18,6 +18,7 @@ class filledQuestion extends Model
     protected $fillable = [
         'filled_form_id' ,
         'question_id' ,
+        'answer' ,
     ];
     // RELATIONS
     public function question(){

@@ -25,6 +25,9 @@ class CreateQuestionsTable extends Migration
 //            $table->foreign('question_type_id')->references('id')->on('question_types');
             $table->foreign('form_id')->references('id')->on('forms');
         });
+        Schema::table('filled_questions' , function (Blueprint $table) {
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+        });
     }
 
     /**

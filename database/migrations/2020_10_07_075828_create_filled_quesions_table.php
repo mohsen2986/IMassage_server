@@ -18,11 +18,12 @@ class CreateFilledQuesionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('filled_form_id')->unsigned();
             $table->unsignedBigInteger('question_id')->unsigned();
+            $table->string('answer' , 1000);
             $table->timestamps();
         });
         Schema::table('filled_questions' , function (Blueprint $table) {
             $table->foreign('filled_form_id')->references('id')->on('filled_forms')->onDelete('cascade');
-            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+//            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
     }
 
