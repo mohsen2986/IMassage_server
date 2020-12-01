@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers\Order;
 
+use App\FilledForm;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Massage;
 use App\Order;
 use App\Packages;
 use App\ReservedTimeDates;
+use App\SmsToken;
+use App\Time;
 use App\Transactions;
+use App\User;
+use Carbon\Carbon;
 use Facade\Ignition\Support\Packagist\Package;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -25,7 +31,15 @@ class OrderController extends ApiController
      */
     public function index()
     {
-        return $this->showAll(Order::all());
+        $orders = Order::all();
+        foreach ($orders as $order){
+            $order->massage;
+            $order->packages;
+            $order->transactions;
+            $order->reservedTimeDates->pluck('date');
+            $order->times;
+        }
+        return $this->showAll($orders , 200, true);
     }
 
     /**
@@ -41,7 +55,6 @@ class OrderController extends ApiController
         //             'user_id'
 
         $rules = [
-            'filled_form_id' => 'required' ,
             'time' => 'required' ,
             'reserved_time_date_id' => 'required',
             'massage_id' => 'required',
@@ -55,7 +68,8 @@ class OrderController extends ApiController
         $massage = Massage::find(request('massage_id'));
         $package = Packages::find(request('package_id'));
         $transaction = Transactions::find(request('transactions_id'));
-        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
+//        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
+        $reservedTimeDates = ReservedTimeDates::where('date' , '=' , request('reserved_time_date_id'))->first();
         $gender = request('gender');
         // check data
         if($massage && $package && $transaction && $reservedTimeDates ){
@@ -78,7 +92,7 @@ class OrderController extends ApiController
             // check transaction is valid
             // todo check valid request to payment gate for validation
             if($transaction->valid_transaction == Transactions::VALID){
-                $transaction->valid_transaction = Transactions::INVALID; // TODO CHECK THIS INVALID!!!! :)
+                $transaction->valid_transaction = Transactions::INVALID;
                 $transaction->save(); // save to database
 
                 // set reserved time in ReservedTimeDates
@@ -90,18 +104,28 @@ class OrderController extends ApiController
                 $data = request()->all();
                 // get user form Auth layer
                 $user = Auth::user();
-                $data['user_id']  =$user->id; // todo GET USER FROM AUTH
+                $data['user_id']  = $user->id;
+                $data['reserved_time_date_id'] = $reservedTimeDates->id;
+                // get Filled Form id
+                $filledForm = FilledForm::where('user_id' , '=' , $user->id)->first();
+                $data['filled_form_id'] = $filledForm->id;
                 //  store data
                 $order = Order::create($data);
-
+                // create time table
+                for($temp = $startTime ; $temp != $endTime ; $temp++){
+                    $timeDate['time'] = 'H'.$temp;
+                    $timeDate['order_id'] = $order->id;
+                    Time::create($timeDate);
+                }
                 return $this->showOne($order);
 
+            }else{
+                return $this->errorResponse('the transaction is invalid' ,422);
             }
 
         }else{
             // incorrect data
-            dd('not found');
-
+            return $this->errorResponse("the data are invalid", 422);
         }
 
     }
@@ -146,7 +170,8 @@ class OrderController extends ApiController
         // get data
         $time = request('time');
         $massage = Massage::find(request('massage_id'));
-        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
+//        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
+        $reservedTimeDates = ReservedTimeDates::where('date' , '=' , request('reserved_time_date_id'))->first();
         $gender = request('gender');
         // check data
         if ($massage && $reservedTimeDates) {
@@ -167,5 +192,120 @@ class OrderController extends ApiController
 
         }
         return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function order(Request $request){
+        $nowTime = Carbon::now()->hour;
+//        $user = User::find(1);
+        $user = Auth::User();
+        $reservedTimes = new Collection();
+//        echo $order[2]->times;
+//        echo $user->orders->time;
+        $temp = explode(' ', jdate());
+        $today = ReservedTimeDates::where('date' , '=' , $temp[0])->first();
+        if($dates = ReservedTimeDates::where('id' , '>=' , $today->id)->get()){
+            foreach ($dates as $date){
+                if($orders = Order::where('reserved_time_date_id' , '=' , $date->id)
+                    ->where('user_id' , '=' , $user->id)->get()){
+                    foreach ($orders as $order){
+                        // if order is today
+                        if($order->reserved_time_date_id == $today->id) {
+                            foreach ($order->times as $time) {
+                                if (substr($time['time'], 1) >= $nowTime) {
+                                    $reservedTimes->push($order);
+                                break;
+                                }
+                            }
+                        }
+                        else{
+                            $order->massage;
+                            $reservedTimes->push($order);
+                        }
+                    }
+                }
+            }
+            $returnData = new Collection();
+            foreach ($reservedTimes as $order){
+                $order->massage;
+                $order->packages;
+                $order->transactions;
+                $order->reservedTimeDates->pluck('date');
+                $order->times;
+                $returnData->push($order);
+            }
+            return $this->showAll($returnData);
+        }
+    }
+
+    /**
+     *
+     */
+    public function allOrderHistory(){
+        // get UserId from Auth
+        $user = Auth::User();
+//        $user = 1;
+//        $user = 1;
+        $orders = Order::where('user_id' , '=' , $user->id)->get();
+        $returnData = new Collection();
+        foreach ($orders as $order){
+            $order->massage;
+            $order->packages;
+            $order->transactions;
+            $order->reservedTimeDates->pluck('date');
+            $order->times;
+            $returnData->push($order);
+        }
+        return $this->showAll($returnData);
+    }
+    public function allOrderHistory_(){
+        // get UserId from Auth
+        $user = Auth::User();
+//        $user = 1;
+//        $user = 1;
+        $orders = Order::where('user_id' , '=' , $user->id)->get();
+        $returnData = new Collection();
+        foreach ($orders as $order){
+            $order->massage;
+            $order->packages;
+            $order->transactions;
+            $order->reservedTimeDates->pluck('date');
+            $order->times;
+            $returnData->push($order);
+        }
+        return $this->showAll($returnData , 200, true);
+    }
+
+    public function reservedOrders(Request $request){
+        $nowTime = Carbon::now()->hour;
+        $reservedTimes = new Collection();
+
+        $temp = explode(' ', jdate());
+        $today = ReservedTimeDates::where('date' , '=' , $temp[0])->first();
+        if($dates = ReservedTimeDates::where('id' , '>=' , $today->id)->get()) {
+            foreach ($dates as $date) {
+                if ($orders = Order::where('reserved_time_date_id', '=', $date->id)->get()) {
+                    foreach ($orders as $order) {
+                        // if order is today
+                        if ($order->reserved_time_date_id == $today->id) {
+                            foreach ($order->times as $time) {
+                                if (substr($time['time'], 1) >= $nowTime) {
+                                    $reservedTimes->push($order);
+                                    break;
+                                }
+                            }
+                        } else {
+                            // else for tomorrow or else....
+                            $order->massage;
+                            $reservedTimes->push($order);
+                        }
+                    }
+                }
+            }
+//            reservedOrders
+            return $this->showAll($reservedTimes , 200 , true);
+        }
     }
 }
