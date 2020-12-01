@@ -30,6 +30,7 @@ class RegisterController extends Controller
             'family' => 'required',
             'phone' => 'required | min:10 | max:10 | unique:users',
             'gender' => 'required',
+            'photo' ,
         ];
         $this->validate($request , $rules);
         // get and maintain the request
@@ -37,6 +38,10 @@ class RegisterController extends Controller
         $data['password'] = bcrypt(request('password'));
         // add user to DB
         $user = User::create($data);
+        if(request('photo')){
+            $user->phone = request('photo')->store('');
+            $user->save();
+        }
         // send sms and verification token
         $smsSender = new SendSms();
         $tokenData['code'] = SmsToken::generateCode();
