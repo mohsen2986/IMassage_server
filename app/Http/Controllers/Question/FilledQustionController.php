@@ -58,4 +58,21 @@ class FilledQustionController extends ApiCOntroller
         return $this->showOne($fillQuestion);
     }
 
+    /**
+     * @param Request $request
+     * @throws ValidationException
+     */
+
+    public function getAnswerQuestions(Request $request){
+        $rules = [
+            'filled_form'
+        ];
+        $this->validate($request, $rules);
+        $answers = filledQuestion::where('filled_form_id' , '=' , request('filled_form'))->get();
+        foreach($answers as $answer){
+            $answer->question;
+        }
+        return $this->showAll($answers);
+    }
+
 }
