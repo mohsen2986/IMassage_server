@@ -21,7 +21,8 @@ class OfferController extends ApiController
      */
     public function index()
     {
-        return $this->showAll(Offers::all());
+        $offers = Offers::all();
+        return $this->showAll($offers , 200 , true);
     }
 
     /**
