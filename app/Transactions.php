@@ -19,20 +19,27 @@ class Transactions extends Model
 
     const VALID = 'VALID';
     const INVALID = 'INVALID';
+
+    const NOT_PAYED = 'NOT_PAYED';
     /**
      * @var array
      */
     protected $fillable = [
         'ref_id' ,
         'amount' ,
+        'amount_with_offer' ,
         'is_used' ,
         'user_id' ,
         'valid_transaction'
     ];
+    // RELATIONS
     public function user(){
         return $this->belongsTo(User::class);
     }
     public function order(){
         return $this->belongsTo(Order::class);
+    }
+    public function offer(){
+        return $this->belongsToMany(Offers::class);
     }
 }

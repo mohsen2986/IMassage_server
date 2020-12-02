@@ -2,15 +2,24 @@
 
 namespace App;
 
+use App\Transformers\UserTransformer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * Class User
+ * @package App
+ * @property mixed id
+ */
 class User extends Authenticatable
 {
     use Notifiable , HasApiTokens;
+
+    public $transformer = UserTransformer::class;
+
     const VERIFIED_USER = '1';
     const UNVERIFIED_USER = '0';
 
@@ -34,16 +43,12 @@ class User extends Authenticatable
         'family' ,
         'phone' ,
         'photo' ,
-        'father_name' ,
-        'melli_code' ,
-        'shenasnameh_code' ,
-        'born_location' ,
         'address' ,
         'verified' ,
         'verification_token' ,
         'gender' ,
         'admin' ,
-        'filled_all_forms'
+        'date' ,
     ];
 
     /**

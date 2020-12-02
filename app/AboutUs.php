@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\AboutUsTransformer;
 use Illuminate\Database\Eloquent\Model;
 
 /**

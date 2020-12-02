@@ -25,4 +25,7 @@ class Form extends Model
     public function filledForm(){
         return $this->hasMany(FilledForm::class);
     }
+    public function config(){
+        return $this->hasOne(Config::class);
+    }
 }

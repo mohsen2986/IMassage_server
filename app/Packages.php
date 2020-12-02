@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Transformers\PackageTransformer;
+use App\Transformers\UserTransformer;
 use Illuminate\Database\Eloquent\Model;
 
 /**

@@ -31,4 +31,7 @@ class Massage extends Model
     public function order(){
         return $this->hasMany(Order::class);
     }
+    public function offers(){
+        return $this->hasMany(Offers::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Transformers\OfferTransformer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -15,6 +16,8 @@ use Illuminate\Support\Str;
  */
 class Offers extends Model
 {
+    public $transformer = OfferTransformer::class;
+
     const VALIDATE = '1';
     const INVALIDATE = '0';
 
@@ -26,6 +29,9 @@ class Offers extends Model
         'date' ,
         'validate' ,
         'offer' ,
+        'massage_id' ,
+        'start_date' ,
+        'expire_date' ,
     ];
     // relations
     public function order(){
@@ -33,6 +39,12 @@ class Offers extends Model
     }
     public function usedOffers(){
         return $this->belongsTo(UsedOffers::class);
+    }
+    public function transactions(){
+        return $this->belongsToMany(Transactions::class);
+    }
+    public function massage(){
+        return $this->belongsTo(Massage::class);
     }
     // functions
     public static function generateCode(){
