@@ -12,7 +12,7 @@ use PhpParser\Node\Expr\Array_;
 
 trait ApiResponser
 {
-    private function successResponse($data, $code)
+    protected function successResponse($data, $code)
     {
         return response()->json($data, $code);
     }
