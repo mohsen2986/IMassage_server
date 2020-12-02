@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\DayCreateTimes::class ,
     ];
 
     /**
@@ -24,7 +26,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+//        $schedule->command('times:day')
+//            ->daily();
+//        $schedule->call( function() {
+//            Log::info("hello friend !!");
+//        })->everyMinute();
+////
+        $schedule->command('times:day')->daily();
+
+//        $schedule->command('times:day')
+//            ->cron('* * * * * *')
+//            ->withoutOverlapping();
     }
 
     /**

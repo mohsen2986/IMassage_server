@@ -16,7 +16,9 @@
         "laravel/framework": "^7.24",
         "laravel/passport": "^9.3",
         "laravel/tinker": "^2.0",
-        "morilog/jalali": "3.*"
+        "league/fractal": "^0.19.2",
+        "morilog/jalali": "3.*",
+        "spatie/laravel-fractal": "^5.8"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

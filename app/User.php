@@ -31,6 +31,9 @@ class User extends Authenticatable
 
     const FORM_FILLED = 'true';
     const FORM_NOT_FILLED = 'false';
+
+    const NEED_CONSULTING = "NEED_CONSULTING";
+    const DO_NOT_NEED_CONSULTING = "DO_NOT_NEED_CONSULTING";
     /**
      * The attributes that are mass assignable.
      *
