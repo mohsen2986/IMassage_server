@@ -89,7 +89,8 @@ class UserController extends ApiController
                 'name' ,
                 'family' ,
                 'gender' ,
-                'photo'
+                'photo' ,
+                'address' ,
             ])
         );
         // check has image
@@ -123,7 +124,7 @@ class UserController extends ApiController
 
     public function getUserInformation(){
         $user = Auth::user();
-        $user = User::find($user->id , ['name' , 'family' , 'photo' , 'phone' , 'gender'] );
+        $user = User::find($user->id , ['name' , 'family' , 'photo' , 'phone' , 'gender' , 'date' , 'address'] );
         return $this->showOne($user);
     }
 }

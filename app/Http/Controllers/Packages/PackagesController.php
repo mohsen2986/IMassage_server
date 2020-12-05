@@ -40,6 +40,7 @@ class PackagesController extends ApiController
             'image' => 'required|image',
             'cost' => 'required',
             'massage_id' => 'required',
+            'length' => 'required' ,
         ];
         $this->validate($request, $rules);
 

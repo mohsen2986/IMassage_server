@@ -4,10 +4,9 @@ use App\ReservedTimeDates;
 use App\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReservedTimeDatesTable extends Migration
+class CreateTemptTimes extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +15,7 @@ class CreateReservedTimeDatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('reserved_time_dates', function (Blueprint $table) {
+        Schema::create('temp_times', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('h1')->default(ReservedTimeDates::FREE);
@@ -69,9 +68,6 @@ class CreateReservedTimeDatesTable extends Migration
             $table->string('h24_gender')->default(User::MALE_GENDER);
             $table->timestamps();
         });
-        Schema::table('orders' , function (BluePrint $table) {
-            $table->foreign('reserved_time_date_id')->references('id')->on('reserved_time_dates')->onDelete('cascade');
-        });
     }
 
     /**
@@ -82,7 +78,7 @@ class CreateReservedTimeDatesTable extends Migration
     public function down()
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
-        Schema::dropIfExists('reserved_time_dates');
+        Schema::dropIfExists('temp_times');
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

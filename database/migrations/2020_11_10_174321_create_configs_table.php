@@ -20,6 +20,20 @@ class CreateConfigsTable extends Migration
         Schema::create('configs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('form_id')->unsigned();
+            $table->string('h1')->default(ReservedTimeDates::FREE);
+            $table->string('h1_gender')->default(User::MALE_GENDER);
+            $table->string('h2')->default(ReservedTimeDates::FREE);
+            $table->string('h2_gender')->default(User::MALE_GENDER);
+            $table->string('h3')->default(ReservedTimeDates::FREE);
+            $table->string('h3_gender')->default(User::MALE_GENDER);
+            $table->string('h4')->default(ReservedTimeDates::FREE);
+            $table->string('h4_gender')->default(User::MALE_GENDER);
+            $table->string('h5')->default(ReservedTimeDates::FREE);
+            $table->string('h5_gender')->default(User::MALE_GENDER);
+            $table->string('h6')->default(ReservedTimeDates::FREE);
+            $table->string('h6_gender')->default(User::MALE_GENDER);
+            $table->string('h7')->default(ReservedTimeDates::FREE);
+            $table->string('h7_gender')->default(User::MALE_GENDER);
             $table->string('h8')->default(ReservedTimeDates::FREE);
             $table->string('h8_gender')->default(User::MALE_GENDER);
             $table->string('h9')->default(ReservedTimeDates::FREE);
@@ -50,6 +64,10 @@ class CreateConfigsTable extends Migration
             $table->string('h21_gender')->default(User::MALE_GENDER);
             $table->string('h22')->default(ReservedTimeDates::FREE);
             $table->string('h22_gender')->default(User::MALE_GENDER);
+            $table->string('h23')->default(ReservedTimeDates::FREE);
+            $table->string('h23_gender')->default(User::MALE_GENDER);
+            $table->string('h24')->default(ReservedTimeDates::FREE);
+            $table->string('h24_gender')->default(User::MALE_GENDER);
 
             $table->string('d1')->default(Config::OPEN);
             $table->string('d2')->default(Config::OPEN);

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed image
  * @property mixed cost
  * @property mixed massage_id
+ * @property mixed length
  */
 class Packages extends Model
 {
@@ -27,7 +28,8 @@ class Packages extends Model
         'description' ,
         'image' ,
         'cost' ,
-        'massage_id'
+        'massage_id' ,
+        'length' ,
     ];
     // RELATIONS
     public function massage(){

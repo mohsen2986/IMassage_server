@@ -17,6 +17,7 @@ class CreatePackagesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
+            $table->unsignedBigInteger('length');
             $table->string('image')->default('unknown');
             $table->string('cost');
             $table->unsignedBigInteger('massage_id')->unsigned();

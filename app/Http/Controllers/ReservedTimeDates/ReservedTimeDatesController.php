@@ -199,7 +199,9 @@ class ReservedTimeDatesController extends ApiController
             // check gender
             // check time
             $startTime = ((int)substr($time, 1));
-            $endTime = ((int)substr($time, 1)) + $massage->length;
+//            $endTime = ((int)substr($time, 1)) + $massage->length; // todo migrate to package
+            $endTime = ((int)substr($time, 1)) + $package->length;
+
             $temp = $startTime;
             while ($temp != ($endTime)) {
                 if ($reservedTimeDates['h' . $temp] == ReservedTimeDates::RESERVED) {
@@ -214,9 +216,23 @@ class ReservedTimeDatesController extends ApiController
             // time not reserved
             // check transaction is valid
 
-            $this->insetNewReserve($reservedTimeDates , $reservedTimeDates , $massage , $startTime);
+            $this->insetNewReserve($reservedTimeDates , $reservedTimeDates , $package , $startTime);
             DB::table('temp_times')->insert([
                     'date' => $reservedTimeDates->date ,
+                    'h1' => $reservedTimeDates->h1,
+                    'h1_gender' => $reservedTimeDates->h1_gender,
+                    'h2' => $reservedTimeDates->h2,
+                    'h2_gender' => $reservedTimeDates->h2_gender,
+                    'h3' => $reservedTimeDates->h3,
+                    'h3_gender' => $reservedTimeDates->h3_gender,
+                    'h4' => $reservedTimeDates->h4,
+                    'h4_gender' => $reservedTimeDates->h4_gender,
+                    'h5' => $reservedTimeDates->h5,
+                    'h5_gender' => $reservedTimeDates->h5_gender,
+                    'h6' => $reservedTimeDates->h6,
+                    'h6_gender' => $reservedTimeDates->h6_gender,
+                    'h7' => $reservedTimeDates->h7,
+                    'h7_gender' => $reservedTimeDates->h7_gender,
                     'h8' => $reservedTimeDates->h8,
                     'h8_gender' => $reservedTimeDates->h8_gender,
                     'h9' => $reservedTimeDates->h9,
@@ -251,51 +267,7 @@ class ReservedTimeDatesController extends ApiController
                     'created_at' => Carbon::now() ,
                 ]);
                 return response()->json('reserve the time', 200);
-//                return $this->successResponse('reserve the time' , 201);
-            /*
-            $times = DB::table('temp_times')->where('date', '=', $reservedTimeDates->date)->get();
-            $tt = new ReservedTimeDates([
-                'date' => $reservedTimeDates->date ,
-                'h8' => $reservedTimeDates->h8,
-                'h8_gender' => $reservedTimeDates->h8_gender,
-                'h9' => $reservedTimeDates->h9,
-                'h9_gender' => $reservedTimeDates->h9_gender,
-                'h10' => $reservedTimeDates->h10,
-                'h10_gender' => $reservedTimeDates->h10_gender,
-                'h11' => $reservedTimeDates->h11,
-                'h11_gender' => $reservedTimeDates->h11_gender,
-                'h12' => $reservedTimeDates->h12,
-                'h12_gender' => $reservedTimeDates->h12_gender,
-                'h13' => $reservedTimeDates->h13,
-                'h13_gender' => $reservedTimeDates->h13_gender,
-                'h14' => $reservedTimeDates->h14,
-                'h14_gender' => $reservedTimeDates->h14_gender,
-                'h15' => $reservedTimeDates->h15,
-                'h15_gender' => $reservedTimeDates->h15_gender,
-                'h16' => $reservedTimeDates->h16,
-                'h16_gender' => $reservedTimeDates->h16_gender,
-                'h17' => $reservedTimeDates->h17,
-                'h17_gender' => $reservedTimeDates->h17_gender,
-                'h18' => $reservedTimeDates->h18,
-                'h18_gender' => $reservedTimeDates->h18_gender,
-                'h19' => $reservedTimeDates->h19,
-                'h19_gender' => $reservedTimeDates->h19_gender,
-                'h20' => $reservedTimeDates->h20,
-                'h20_gender' => $reservedTimeDates->h20_gender,
-                'h21' => $reservedTimeDates->h21,
-                'h21_gender' => $reservedTimeDates->h21_gender,
-                'h22' => $reservedTimeDates->h22,
-                'h22_gender' => $reservedTimeDates->h22_gender,
-            ]);
-//            $this->insertNewTimes($times[1] , $tt);
-//            $this->insetNewReserve($tt , $tt , $massage , 11);
-//            echo $time->diffInMinutes($now);
-            foreach ($times as $time){
-                if($this->checkTime($time) < 40){
-                    $this->insertNewTimes($time , $tt);
-                }
 
-            }*/
             }else{
             return $this->errorResponse('invalid data' , 422);
         }
@@ -314,9 +286,9 @@ class ReservedTimeDatesController extends ApiController
             }
             return $element;
         }
-        private function insetNewReserve($time , $element , $massage , $hour){
+        private function insetNewReserve($time , $element , $package , $hour){
             $element['date'] = $time['date'];
-            $massageTime = $massage['length'];
+            $massageTime = $package['length'];
             $hour_ = (int) $hour;
             for($i= 8 ; $i<23 ; $i++){
                 $hours = 'h'.$i;

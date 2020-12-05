@@ -2,9 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMassagesTable extends Migration
+class CreateClosedDays extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +14,9 @@ class CreateMassagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('massages', function (Blueprint $table) {
+        Schema::create('closed_days', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('cost');
-            $table->string('image')->default('unknown');
-            $table->string('description' , 1000);
-            $table->timestamps();
+            $table->date('date');
         });
     }
 
@@ -30,6 +27,8 @@ class CreateMassagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('massages');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        Schema::dropIfExists('closed_days');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
     }
 }

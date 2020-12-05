@@ -76,7 +76,8 @@ class OrderController extends ApiController
             // check gender
             // check time
             $startTime = ((int) substr($time , 1));
-            $endTime = ((int) substr($time , 1))+$massage->length;
+//            $endTime = ((int) substr($time , 1))+$massage->length;  // todo migrate to package
+            $endTime = ((int) substr($time , 1))+$package->length;
             $temp = $startTime;
             while($temp != ($endTime)){
                 if($reservedTimeDates['h'.$temp] ==  ReservedTimeDates::RESERVED){
@@ -163,22 +164,24 @@ class OrderController extends ApiController
         $rules = [
             'time' => 'required',
             'reserved_time_date_id' => 'required',
-            'massage_id' => 'required',
+            'package' => 'required',
             'gender' => 'required'
         ];
         $this->validate($request, $rules);
         // get data
         $time = request('time');
-        $massage = Massage::find(request('massage_id'));
+//        $massage = Massage::find(request('massage_id'));
+        $package = Packages::find(request('package'));
 //        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
         $reservedTimeDates = ReservedTimeDates::where('date' , '=' , request('reserved_time_date_id'))->first();
         $gender = request('gender');
         // check data
-        if ($massage && $reservedTimeDates) {
+        if ( $package && $reservedTimeDates) {
             // check gender
             // check time
             $startTime = ((int)substr($time, 1));
-            $endTime = ((int)substr($time, 1)) + $massage->length;
+//            $endTime = ((int)substr($time, 1)) + $massage->length; // todo migrate to package
+            $endTime = ((int)substr($time, 1)) + $package->length;
             $temp = $startTime;
             while ($temp != ($endTime)) {
                 if ($reservedTimeDates['h' . $temp] == ReservedTimeDates::RESERVED) {

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
  * @package App
  * @property mixed name
  * @property mixed cost
- * @property mixed length
  * @property mixed image
  */
 class Massage extends Model
@@ -20,7 +19,6 @@ class Massage extends Model
     protected $fillable = [
         'name' ,
         'cost' ,
-        'length' ,
         'image' ,
         'description' ,
     ];
