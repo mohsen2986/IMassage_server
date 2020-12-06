@@ -164,7 +164,7 @@ class OrderController extends ApiController
         $rules = [
             'time' => 'required',
             'reserved_time_date_id' => 'required',
-            'package' => 'required',
+            'package_id' => 'required',
             'gender' => 'required'
         ];
         $this->validate($request, $rules);
@@ -194,6 +194,7 @@ class OrderController extends ApiController
             }
 
         }
+        return $this->errorResponse('the time have ben reserved', 422);
         return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
     }
 
@@ -240,6 +241,7 @@ class OrderController extends ApiController
                 $returnData->push($order);
             }
             return $this->showAll($returnData);
+//            return $this->showAll($orders , 200, true);
         }
     }
 
@@ -253,15 +255,16 @@ class OrderController extends ApiController
 //        $user = 1;
         $orders = Order::where('user_id' , '=' , $user->id)->get();
         $returnData = new Collection();
-        foreach ($orders as $order){
-            $order->massage;
-            $order->packages;
-            $order->transactions;
-            $order->reservedTimeDates->pluck('date');
-            $order->times;
-            $returnData->push($order);
-        }
-        return $this->showAll($returnData);
+//        foreach ($orders as $order){
+//            $order->massage;
+//            $order->packages;
+//            $order->transactions;
+//            $order->reservedTimeDates->pluck('date');
+//            $order->times;
+//            $returnData->push($order);
+//        }
+//        return $this->showAll($returnData);
+        return $this->showAll($orders , 200, true);
     }
     public function allOrderHistory_(){
         // get UserId from Auth
