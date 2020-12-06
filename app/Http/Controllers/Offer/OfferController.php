@@ -36,9 +36,13 @@ class OfferController extends ApiController
     {
         $rules =[
             'number' => 'required',
-            'percent' => 'required'
+            'percent' => 'required' ,
+            'massage' => 'required',
+            'start_date' => 'required',
+            'expire_date' => 'required',
         ];
         $this->validate($request , $rules);
+        // todo must check the massage-> id is valid
         // generate data
         // hold offers for response
         $offers = new Collection();
@@ -49,6 +53,9 @@ class OfferController extends ApiController
             $data['date'] = $temp[0];
             $data['validate'] = Offers::VALIDATE;
             $data['offer'] = request('percent');
+            $data['massage_id'] = request('massage');
+            $data['start_date'] = request('start_date');
+            $data['expire_date'] = request('expire_date');
             // store offer
             $offers->push(Offers::create($data));
             // add it to the response
