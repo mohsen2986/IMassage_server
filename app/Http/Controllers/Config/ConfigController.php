@@ -20,7 +20,7 @@ class ConfigController extends ApiController
     public function index()
     {
         $config = Config::find(1);
-        return $this->showONe($config);
+        return $this->showOne($config);
     }
 
     /**
@@ -118,7 +118,7 @@ class ConfigController extends ApiController
         ]));
 
         $config->save();
-        
+
         return $this->showOne($config);
     }
 
