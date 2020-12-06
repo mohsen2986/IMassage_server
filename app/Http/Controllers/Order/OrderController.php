@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class OrderController extends ApiController
@@ -313,5 +314,27 @@ class OrderController extends ApiController
 //            reservedOrders
             return $this->showAll($reservedTimes , 200 , true);
         }
+    }
+
+    public function getConsultingUsers(){
+        $users = DB::table('consulting')
+            ->join('users' , 'consulting.user_id' , '=' , 'users.id')
+            ->where('is_consulting' , '=' , User::NEED_CONSULTING)
+            ->get();
+
+        return $this->showAll($users);
+    }
+
+    public function setConsultingUser(Request $request){
+        $rules =[
+            'user' => 'required'
+        ];
+        $this->validate($request , $rules);
+
+         DB::table('consulting')
+             ->where('user_id' , '=' , request('user'))
+             ->update(['is_consulting' => User::DO_NOT_NEED_CONSULTING]);
+
+
     }
 }
