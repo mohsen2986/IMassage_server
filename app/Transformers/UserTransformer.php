@@ -25,4 +25,11 @@ class UserTransformer extends TransformerAbstract
             'gender'=> $user->gender ,
         ];
     }
+
+    public static function originalAttribute($index){
+        $attributes =[
+            'user' => 'user_id'
+        ];
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+    }
 }
