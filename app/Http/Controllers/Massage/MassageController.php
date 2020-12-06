@@ -53,6 +53,7 @@ class MassageController extends ApiController
         $packageData['image'] = $massage->image;
         $packageData['cost'] = $massage->cost;
         $packageData['massage_id'] = $massage->id;
+        $packageData['length'] = 1;
         // create and store new package in DB
         $package = Packages::create($packageData);
 
