@@ -335,6 +335,6 @@ class OrderController extends ApiController
              ->where('user_id' , '=' , request('user'))
              ->update(['is_consulting' => User::DO_NOT_NEED_CONSULTING]);
 
-
+        return response()->json(['status' => 'user updated', 'code' => 200], 200);
     }
 }
