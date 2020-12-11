@@ -13,6 +13,20 @@ class ReservedTimeDates extends Model
      */
     protected $fillable = [
         'date' ,
+        'h1' ,
+        'h1_gender' ,
+        'h2' ,
+        'h2_gender' ,
+        'h3' ,
+        'h3_gender' ,
+        'h4' ,
+        'h4_gender' ,
+        'h5' ,
+        'h5_gender' ,
+        'h6' ,
+        'h6_gender' ,
+        'h7' ,
+        'h7_gender' ,
         'h8' ,
         'h8_gender' ,
         'h9' ,
@@ -43,6 +57,10 @@ class ReservedTimeDates extends Model
         'h21_gender' ,
         'h22' ,
         'h22_gender' ,
+        'h23' ,
+        'h23_gender' ,
+        'h24' ,
+        'h24_gender' ,
     ];
     // RELATIONS
     public function order(){

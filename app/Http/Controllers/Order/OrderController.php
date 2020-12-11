@@ -181,7 +181,6 @@ class OrderController extends ApiController
             // check gender
             // check time
             $startTime = ((int)substr($time, 1));
-//            $endTime = ((int)substr($time, 1)) + $massage->length; // todo migrate to package
             $endTime = ((int)substr($time, 1)) + $package->length;
             $temp = $startTime;
             while ($temp != ($endTime)) {
@@ -195,7 +194,6 @@ class OrderController extends ApiController
             }
 
         }
-        return $this->errorResponse('the time have ben reserved', 422);
         return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
     }
 
@@ -241,8 +239,8 @@ class OrderController extends ApiController
                 $order->times;
                 $returnData->push($order);
             }
-            return $this->showAll($returnData);
-//            return $this->showAll($orders , 200, true);
+            return $this->showAll($orders , 200, true);
+//            return $this->showAll($returnData);
         }
     }
 
@@ -335,6 +333,6 @@ class OrderController extends ApiController
              ->where('user_id' , '=' , request('user'))
              ->update(['is_consulting' => User::DO_NOT_NEED_CONSULTING]);
 
-
+        return response()->json(['status' => 'user updated', 'code' => 200], 200);
     }
 }

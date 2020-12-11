@@ -21,6 +21,9 @@ class PackagesController extends ApiController
     public function index()
     {
         $packages = Packages::all();
+        foreach ($packages as $package){
+            $package['massage_id'] = $package->massage;
+        }
         return $this->showAll($packages);
     }
 
