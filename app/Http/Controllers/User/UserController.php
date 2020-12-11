@@ -2,15 +2,23 @@
 
 namespace App\Http\Controllers\User;
 
+use App\FilledForm;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\User;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Passport\Client;
+use niklasravnsborg\LaravelPdf\Facades\Pdf as PDF;
+//inclide_once ('vendor/tcpdf-master/tcpdf.php');
+require_once base_path('vendor/tcpdf-master/tcpdf.php');
+require_once base_path('app/generatePdf.php');
 
 class UserController extends ApiController
 {
@@ -127,4 +135,26 @@ class UserController extends ApiController
         $user = User::find($user->id , ['name' , 'family' , 'photo' , 'phone' , 'gender' , 'date' , 'address'] );
         return $this->showOne($user);
     }
+
+    public function downloadUsersAsPdf(Request $request){
+        $users = User::all();
+        return generate($users);
+    }
+
+    public function checkFilledQuestions(){
+        $user = Auth::user();
+        $filledForm = FilledForm::where('user_id' , '=' , $user->id)->first();
+
+        if ($filledForm){
+            $response = [
+                "status" => "form filled"
+            ];
+            return response()->json($response , 200);
+        }
+        $response = [
+            "status" => "form not filled"
+        ];
+        return response()->json($response , 202);
+    }
+
 }

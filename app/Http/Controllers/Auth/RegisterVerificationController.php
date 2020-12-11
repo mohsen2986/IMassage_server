@@ -68,7 +68,7 @@ class RegisterVerificationController extends Controller
                     $response = [
                         "status" => "code is invalid"
                     ];
-                    return response()->json($response , 202);
+                    return response()->json($response , 200);
                 }
             } // toke or code is expired or used
             else {

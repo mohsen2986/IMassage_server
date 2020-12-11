@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\SmsToken;
 use App\User;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Validation\ValidationException;
 use Laravel\Passport\Client;
 
-class LoginVerificationController extends Controller
+class LoginVerificationController extends ApiController
 {
     private $client;
     public function __construct(){
@@ -70,7 +71,8 @@ class LoginVerificationController extends Controller
                     $response = [
                         "status" => "code is invalid"
                     ];
-                    return response()->json($response , 202);
+//                    return response()->json($response , 200);
+                    return $this->errorResponse("token is invalid" , 409);
                 }
             } // toke or code is expired or used
             else {
@@ -79,7 +81,7 @@ class LoginVerificationController extends Controller
                     $response = [
                         "status" => "code is time out!!"
                     ];
-                    return response()->json($response, 202);
+//                    return response()->json($response, 202);
                 }
                 $response = [
                     "status" => "code is expired"
@@ -90,7 +92,8 @@ class LoginVerificationController extends Controller
             $response = [
                 "status" => "token is invalid"
             ];
-            return response()->json($response, 209);
+//            return response()->json($response, 209);
+            return $this->errorResponse("token is invalid" , 209);
         }
     }
 }

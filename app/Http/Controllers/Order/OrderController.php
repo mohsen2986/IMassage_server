@@ -195,7 +195,7 @@ class OrderController extends ApiController
             }
 
         }
-        return $this->errorResponse('the time have ben reserved', 422);
+//        return $this->errorResponse('the time have ben reserved', 422);
         return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
     }
 

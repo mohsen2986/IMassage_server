@@ -136,6 +136,20 @@ class ReservedTimeDatesController extends ApiController
         }
         $tempTimes = new ReservedTimeDates([
             'date' => $reservedTimeDates->date ,
+            'h1' => $reservedTimeDates->h1,
+            'h1_gender' => $reservedTimeDates->h1_gender,
+            'h2' => $reservedTimeDates->h2,
+            'h2_gender' => $reservedTimeDates->h2_gender,
+            'h3' => $reservedTimeDates->h3,
+            'h3_gender' => $reservedTimeDates->h3_gender,
+            'h4' => $reservedTimeDates->h4,
+            'h4_gender' => $reservedTimeDates->h4_gender,
+            'h5' => $reservedTimeDates->h5,
+            'h5_gender' => $reservedTimeDates->h5_gender,
+            'h6' => $reservedTimeDates->h6,
+            'h6_gender' => $reservedTimeDates->h6_gender,
+            'h7' => $reservedTimeDates->h7,
+            'h7_gender' => $reservedTimeDates->h7_gender,
             'h8' => $reservedTimeDates->h8,
             'h8_gender' => $reservedTimeDates->h8_gender,
             'h9' => $reservedTimeDates->h9,
@@ -166,11 +180,13 @@ class ReservedTimeDatesController extends ApiController
             'h21_gender' => $reservedTimeDates->h21_gender,
             'h22' => $reservedTimeDates->h22,
             'h22_gender' => $reservedTimeDates->h22_gender,
+            'h23' => $reservedTimeDates->h23,
+            'h23_gender' => $reservedTimeDates->h23_gender,
         ]);
         if($times) {
             foreach ($times as $time) {
                 if ($this->checkTime($time) < 20) {
-                    $this->insertNewTimes($time, $tempTimes);
+//                    $this->insertNewTimes($time, $tempTimes);
                 }
             }
         }
