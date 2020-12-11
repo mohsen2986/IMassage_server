@@ -37,7 +37,7 @@ class OrderTransformer extends TransformerAbstract
             'user' => $order->user,
             'reserve_time' => $order->reservedTimeDates,
             'massage' => $order->massage,
-            'package' => $order->packages,
+            'package' => $order->packages->name,
             'transaction'=> $order->transactions,
             'filled_form' => $order->filledForm,
             'times' => $order->times ,

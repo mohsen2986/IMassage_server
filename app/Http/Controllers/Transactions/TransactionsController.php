@@ -105,10 +105,11 @@ class TransactionsController extends ApiController
         $rules = [
             'transaction_id'=> 'required' ,
             'offer_code' => 'required',
+            'massage' => 'required'
         ];
         $this->validate($request , $rules);
 
-        $offer = Offers::where('code' , '=' , request('offer_code'))->first();
+        $offer = Offers::where('code' , '=' , request('offer_code'))->where('massage_id' , '=' , request('massage'))->first();
         if ($offer){
             if($offer->validate == Offers::VALIDATE){
                 // invalid the offer code

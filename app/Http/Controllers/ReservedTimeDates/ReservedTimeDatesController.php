@@ -182,11 +182,13 @@ class ReservedTimeDatesController extends ApiController
             'h22_gender' => $reservedTimeDates->h22_gender,
             'h23' => $reservedTimeDates->h23,
             'h23_gender' => $reservedTimeDates->h23_gender,
+            'h24' =>$reservedTimeDates->h24 ,
+            'h24_gender' => $reservedTimeDates->h24_gender,
         ]);
         if($times) {
             foreach ($times as $time) {
                 if ($this->checkTime($time) < 20) {
-//                    $this->insertNewTimes($time, $tempTimes);
+                    $this->insertNewTimes($time, $tempTimes);
                 }
             }
         }
@@ -279,6 +281,10 @@ class ReservedTimeDatesController extends ApiController
                     'h21_gender' => $reservedTimeDates->h21_gender,
                     'h22' => $reservedTimeDates->h22,
                     'h22_gender' => $reservedTimeDates->h22_gender,
+                    'h23' => $reservedTimeDates->h23,
+                    'h23_gender' => $reservedTimeDates->h23_gender,
+                    'h24' => $reservedTimeDates->h24,
+                    'h24_gender' => $reservedTimeDates->h24_gender,
                     'updated_at' => Carbon::now() ,
                     'created_at' => Carbon::now() ,
                 ]);
@@ -288,13 +294,120 @@ class ReservedTimeDatesController extends ApiController
             return $this->errorResponse('invalid data' , 422);
         }
         }
-        private function checkTime($time){
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ValidationException
+     */
+    public function checkTimes(Request $request)
+    {
+        $rules = [
+            'time' => 'required',
+            'reserved_time_date_id' => 'required',
+            'package_id' => 'required',
+            'gender' => 'required'
+        ];
+        $this->validate($request, $rules);
+        // get data
+        $time = request('time');
+        $package = Packages::find(request('package_id'));
+        $reservedTimeDates = ReservedTimeDates::where('date' , '=' , request('reserved_time_date_id'))->first();
+        $gender = request('gender');
+        // check data
+        if ( $package && $reservedTimeDates) {
+            // get the start time
+            $startTime = ((int)substr($time, 1));
+            // get the end time
+            $endTime = ((int)substr($time, 1)) + $package->length;
+            // for holding start time calculation
+            $temp = $startTime;
+            // get the temp times
+            $times = DB::table('temp_times')->where('date', '=', $reservedTimeDates->date)->get();
+
+            // create temp time of reserve time dates
+            $tempTimes = new ReservedTimeDates([
+                'date' => $reservedTimeDates->date ,
+                'h1' => $reservedTimeDates->h1,
+                'h1_gender' => $reservedTimeDates->h1_gender,
+                'h2' => $reservedTimeDates->h2,
+                'h2_gender' => $reservedTimeDates->h2_gender,
+                'h3' => $reservedTimeDates->h3,
+                'h3_gender' => $reservedTimeDates->h3_gender,
+                'h4' => $reservedTimeDates->h4,
+                'h4_gender' => $reservedTimeDates->h4_gender,
+                'h5' => $reservedTimeDates->h5,
+                'h5_gender' => $reservedTimeDates->h5_gender,
+                'h6' => $reservedTimeDates->h6,
+                'h6_gender' => $reservedTimeDates->h6_gender,
+                'h7' => $reservedTimeDates->h7,
+                'h7_gender' => $reservedTimeDates->h7_gender,
+                'h8' => $reservedTimeDates->h8,
+                'h8_gender' => $reservedTimeDates->h8_gender,
+                'h9' => $reservedTimeDates->h9,
+                'h9_gender' => $reservedTimeDates->h9_gender,
+                'h10' => $reservedTimeDates->h10,
+                'h10_gender' => $reservedTimeDates->h10_gender,
+                'h11' => $reservedTimeDates->h11,
+                'h11_gender' => $reservedTimeDates->h11_gender,
+                'h12' => $reservedTimeDates->h12,
+                'h12_gender' => $reservedTimeDates->h12_gender,
+                'h13' => $reservedTimeDates->h13,
+                'h13_gender' => $reservedTimeDates->h13_gender,
+                'h14' => $reservedTimeDates->h14,
+                'h14_gender' => $reservedTimeDates->h14_gender,
+                'h15' => $reservedTimeDates->h15,
+                'h15_gender' => $reservedTimeDates->h15_gender,
+                'h16' => $reservedTimeDates->h16,
+                'h16_gender' => $reservedTimeDates->h16_gender,
+                'h17' => $reservedTimeDates->h17,
+                'h17_gender' => $reservedTimeDates->h17_gender,
+                'h18' => $reservedTimeDates->h18,
+                'h18_gender' => $reservedTimeDates->h18_gender,
+                'h19' => $reservedTimeDates->h19,
+                'h19_gender' => $reservedTimeDates->h19_gender,
+                'h20' => $reservedTimeDates->h20,
+                'h20_gender' => $reservedTimeDates->h20_gender,
+                'h21' => $reservedTimeDates->h21,
+                'h21_gender' => $reservedTimeDates->h21_gender,
+                'h22' => $reservedTimeDates->h22,
+                'h22_gender' => $reservedTimeDates->h22_gender,
+                'h23' => $reservedTimeDates->h23,
+                'h23_gender' => $reservedTimeDates->h23_gender,
+                'h24' =>$reservedTimeDates->h24 ,
+                'h24_gender' => $reservedTimeDates->h24_gender,
+            ]);
+            // insert reserve times in temp times
+            if($times) {
+                foreach ($times as $time) {
+                    if ($this->checkTime($time) < 20) {
+                        $this->insertNewTimes($time, $tempTimes);
+                    }
+                }
+            }
+
+            // check the reserve times is correct
+            while ($temp != ($endTime)) {
+                if ($tempTimes['h' . $temp] == ReservedTimeDates::RESERVED) {
+                    return $this->errorResponse('the time have ben reserved', 422);
+                }
+                if ($tempTimes['h' . $temp . '_gender'] != $gender) {
+                    return $this->errorResponse('the gender is wrong', 422);
+                }
+                $temp++;
+            }
+            return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
+        }else{
+            return $this->errorResponse('wrong data', 422);
+        }
+    }
+
+    private function checkTime($time){
             $now = Carbon::now();
             $reserveTime = Carbon::parse($time->created_at);
             return $reserveTime->diffInMinutes($now);
         }
         private function insertNewTimes($time , $element){
-            for($i= 8 ; $i<23 ; $i++){
+            for($i= 1 ; $i<25 ; $i++){
                 $hours = 'h'.$i;
                 if($time->$hours == '1'){
                     $element->$hours = '1';
@@ -306,7 +419,7 @@ class ReservedTimeDatesController extends ApiController
             $element['date'] = $time['date'];
             $massageTime = $package['length'];
             $hour_ = (int) $hour;
-            for($i= 8 ; $i<23 ; $i++){
+            for($i= 1 ; $i<25 ; $i++){
                 $hours = 'h'.$i;
                 $element->$hours = $time->$hours;
             }
