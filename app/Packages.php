@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed cost
  * @property mixed massage_id
  * @property mixed length
+ *
  */
 class Packages extends Model
 {
@@ -37,5 +38,8 @@ class Packages extends Model
     }
     public function Order(){
         return $this->hasMany(Order::class);
+    }
+    public function timeConfigs(){
+        return $this->belongsToMany(TimeConfig::class);
     }
 }

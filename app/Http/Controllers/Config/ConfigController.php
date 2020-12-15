@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Config;
 use App\Config;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
+use App\Packages;
+use App\TimeConfig;
+use Facade\Ignition\Support\Packagist\Package;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -157,6 +160,14 @@ class ConfigController extends ApiController
 
         $config->save();
 
+        // update open and close config 2
+        $config = Config::find(2);
+        $config->fill($request->only([
+            'closed_days' ,
+            'open_days' ,
+        ]));
+        $config->save();
+
         return $this->showOne($config);
     }
 
@@ -165,7 +176,6 @@ class ConfigController extends ApiController
             case 'شنبه':
                 return 'd1';
             case 'یکشنبه':
-                $result = 'd2';
                 return 'd2';
             case 'دوشنبه':
                 return 'd3';

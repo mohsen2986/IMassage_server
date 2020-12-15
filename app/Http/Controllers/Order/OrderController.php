@@ -143,59 +143,6 @@ class OrderController extends ApiController
         return $this->showOne($order);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //  TODO IF WANT TO DELETE A ORDER
-
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws ValidationException
-     */
-    public function checkTime(Request $request)
-    {
-        $rules = [
-            'time' => 'required',
-            'reserved_time_date_id' => 'required',
-            'package_id' => 'required',
-            'gender' => 'required'
-        ];
-        $this->validate($request, $rules);
-        // get data
-        $time = request('time');
-//        $massage = Massage::find(request('massage_id'));
-        $package = Packages::find(request('package'));
-//        $reservedTimeDates = ReservedTimeDates::find(request('reserved_time_date_id'));
-        $reservedTimeDates = ReservedTimeDates::where('date' , '=' , request('reserved_time_date_id'))->first();
-        $gender = request('gender');
-        // check data
-        if ( $package && $reservedTimeDates) {
-            // check gender
-            // check time
-            $startTime = ((int)substr($time, 1));
-            $endTime = ((int)substr($time, 1)) + $package->length;
-            $temp = $startTime;
-            while ($temp != ($endTime)) {
-                if ($reservedTimeDates['h' . $temp] == ReservedTimeDates::RESERVED) {
-                    return $this->errorResponse('the time have ben reserved', 422);
-                }
-                if ($reservedTimeDates['h' . $temp . '_gender'] != $gender) {
-                    return $this->errorResponse('the gender is wrong', 422);
-                }
-                $temp++;
-            }
-
-        }
-        return response()->json(['status' => 'the time is valid', 'code' => 200], 200);
-    }
 
     /**
      * @param Request $request
@@ -250,19 +197,7 @@ class OrderController extends ApiController
     public function allOrderHistory(){
         // get UserId from Auth
         $user = Auth::User();
-//        $user = 1;
-//        $user = 1;
         $orders = Order::where('user_id' , '=' , $user->id)->get();
-        $returnData = new Collection();
-//        foreach ($orders as $order){
-//            $order->massage;
-//            $order->packages;
-//            $order->transactions;
-//            $order->reservedTimeDates->pluck('date');
-//            $order->times;
-//            $returnData->push($order);
-//        }
-//        return $this->showAll($returnData);
         return $this->showAll($orders , 200, true);
     }
     public function allOrderHistory_(){

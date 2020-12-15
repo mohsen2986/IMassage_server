@@ -42,34 +42,35 @@ class DayCreateTimes extends Command
     {
 
 //        var_dump(Jalalian::forge('today')->format('%A'));
-        $config = Config::find(1);
+        $configs = Config::all();
+        foreach($configs as $config) {
 //        $reservedTimeDate = ReservedTimeDates::where('date' , '=', $data['date'])->first();
-        for($day=0 ; $day < $config->open_days ; $day++){
-            $temp = explode(' ', jdate()->addDays($day));
-            $data['date'] = $temp[0]; // date
+            for ($day = 0; $day < $config->open_days; $day++) {
+                $temp = explode(' ', jdate()->addDays($day));
+                $data['date'] = $temp[0]; // date
 
-            $today = Jalalian::forge('today')->addDays($day)->format('%A');
-            $todayDB = $this->getDay($today);
+                $today = Jalalian::forge('today')->addDays($day)->format('%A');
+                $todayDB = $this->getDay($today);
 
-            $reservedTimeDate = ReservedTimeDates::where('date' , '=', $data['date'])->first();
-            if(!$reservedTimeDate){
-                if($config->closed_days == 0) {
-                    if($config->$todayDB == Config::OPEN){
-                        for($i = 8 ; $i<23 ; $i++){
-                            $t = 'h'.$i;
-                            $g = 'h'.$i.'_gender';
-                            $data[$t] = $config->$t;
-                            $data[$g] = $config->$g;
+                $reservedTimeDate = ReservedTimeDates::where('date', '=', $data['date'])->first();
+                if (!$reservedTimeDate) {
+                    if ($config->closed_days == 0) {
+                        if ($config->$todayDB == Config::OPEN) {
+                            for ($i = 1; $i < 23; $i++) {
+                                $t = 'h' . $i;
+                                $g = 'h' . $i . '_gender';
+                                $data[$t] = $config->$t;
+                                $data[$g] = $config->$g;
+                            }
+                            $time = ReservedTimeDates::create($data);
                         }
-                        $time = ReservedTimeDates::create($data);
+                    } else {
+                        $config->closed_days = $config->closed_days - 1;
+                        $config->save();
                     }
-                }else{
-                    $config->closed_days = $config->closed_days-1;
-                    $config->save();
+
                 }
-
             }
-
         }
     }
     public function getDay($day){
@@ -77,7 +78,6 @@ class DayCreateTimes extends Command
             case 'شنبه':
                 return 'd1';
             case 'یکشنبه':
-                $result = 'd2';
                 return 'd2';
             case 'دوشنبه':
                 return 'd3';

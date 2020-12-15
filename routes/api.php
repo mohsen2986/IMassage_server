@@ -72,6 +72,7 @@ Route::get('orders_history' , 'Order\OrderController@allOrderHistory' );  // tod
 Route::post('check_reserve_time' , 'Order\OrderController@checkTime');
 
 Route::post('reserve' , 'ReservedTimeDates\ReservedTimeDatesController@reserve'); // todo reserve
+Route::post('check_reserve_time' , 'ReservedTimeDates\ReservedTimeDatesController@checkTimes');
 
 Route::resource('reservedTimeDates' , 'ReservedTimeDates\ReservedTimeDatesController' );
 
@@ -89,6 +90,10 @@ Route::post('verifyResetPassword' , 'Auth\ResetPasswordController@resetPasswordS
 Route::get('reservedOrders' , 'Order\OrderController@reservedOrders');
 
 Route::resource('consulting' , 'Consulting\consultingController');
+
+Route::get('getPdf' , 'User\UserController@downloadUsersAsPdf');
+
+Route::get('test' , 'Config\ConfigController@test');
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
