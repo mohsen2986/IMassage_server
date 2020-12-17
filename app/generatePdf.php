@@ -54,7 +54,7 @@ function generate($datas)
     // add a page
     $pdf->AddPage();
     $pdf->Ln(2);
-    $pdf->Cell(180, 0, 'صورت حساب فروش مهرکالا', 0, 1, 'C', 0, 'C', 1);
+//    $pdf->Cell(180, 0, 'صورت حساب فروش مهرکالا', 0, 1, 'C', 0, 'C', 1);
     $pdf->Ln(4);
 
 
@@ -87,6 +87,75 @@ function generate($datas)
         $pdf->Cell(35, 15, "$birthday", 1);
 
         $pdf->Ln();
+        $row_counter++;
+    }
+    // set LTR direction for english translation
+    $pdf->SetFontSize(10);
+
+    // print newline
+    $pdf->Ln();
+
+    // Restore RTL direction
+    $pdf->setRTL(true);
+
+    // set font
+    $pdf->SetFont('aefurat', '', 18);
+
+    // print newline
+    $pdf->Ln();
+
+
+    //Close and output PDF document
+    $pdf->Output("users".'.pdf', 'D');
+
+
+//============================================================+
+// END OF FILE
+//============================================================+
+}
+
+function generateOfferCode($datas)
+{
+// create new PDF document
+    $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+    // set some language dependent data:
+    $lg = Array();
+    $lg['a_meta_charset'] = 'UTF-8';
+    $lg['a_meta_dir'] = 'rtl';
+    $lg['a_meta_language'] = 'fa';
+    $lg['w_page'] = 'page';
+
+    // set some language-dependent strings (optional)
+    $pdf->setLanguageArray($lg);
+
+    // ---------------------------------------------------------
+
+    // set font
+    $pdf->SetFont('dejavusans', '', 12);
+    // add a page
+    $pdf->AddPage();
+    $pdf->Ln(2);
+    $pdf->Ln(4);
+
+
+    $pdf->Ln(12);
+
+    $pdf->SetFillColor(255, 255, 200);
+    // set color for text
+    $pdf->SetTextColor(0, 0, 0);
+    // write the first column
+
+    $row_counter = 1;
+
+    foreach ($datas as $data) {
+        $code = $data["code"];
+
+        $pdf->Cell(45, 15, "$code", 1);
+
+        if($row_counter %4 == 0)
+            $pdf->Ln();
+
         $row_counter++;
     }
     // set LTR direction for english translation

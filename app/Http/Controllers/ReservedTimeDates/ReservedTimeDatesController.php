@@ -119,7 +119,7 @@ class ReservedTimeDatesController extends ApiController
         $dates = ReservedTimeDates::where('id' , '>=' , $today->id)->get();
 
 
-        return $this->showAll($dates->pluck('date'));
+        return $this->showAll(($dates->pluck('date')->unique()));
     }
 
     /**
@@ -242,7 +242,7 @@ class ReservedTimeDatesController extends ApiController
             $reservedTimeDates = $this->insetNewReserve($reservedTimeDates , $package , $startTime , request('gender'));
 
             DB::table('temp_times')->insert([
-                    'date' => $reservedTimeDates->date ,
+                    'date' => request('reserved_time_date_id') ,
                     'h1' => $reservedTimeDates->h1,
                     'h1_gender' => $reservedTimeDates->h1_gender,
                     'h2' => $reservedTimeDates->h2,
@@ -458,7 +458,6 @@ class ReservedTimeDatesController extends ApiController
             $endTime = ($package->length + $startTime);
 
             while($startTime != $endTime){
-                echo $packageRangeTimes['h'.$startTime];
                 if($packageRangeTimes['h'.$startTime] == '1'){
                     return false;
                 }

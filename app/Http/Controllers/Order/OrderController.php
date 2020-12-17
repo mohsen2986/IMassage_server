@@ -186,8 +186,7 @@ class OrderController extends ApiController
                 $order->times;
                 $returnData->push($order);
             }
-            return $this->showAll($orders , 200, true);
-//            return $this->showAll($returnData);
+            return $this->showAll($reservedTimes , 200, true);
         }
     }
 

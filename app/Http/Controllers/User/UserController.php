@@ -99,6 +99,7 @@ class UserController extends ApiController
                 'gender' ,
                 'photo' ,
                 'address' ,
+                'date' ,
             ])
         );
         // check has image

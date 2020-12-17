@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Paarand">
+  <component name="PublishConfigData">
     <serverData>
-      <paths name="Paarand">
+      <paths name="IMassage">
         <serverdata>
           <mappings>
             <mapping deploy="/IMassage" local="$PROJECT_DIR$" web="/" />
-            <mapping deploy="/public_html/IMassage" local="$PROJECT_DIR$/public" web="/" />
+            <mapping deploy="/public_html/Images" local="$PROJECT_DIR$/public" />
           </mappings>
         </serverdata>
       </paths>

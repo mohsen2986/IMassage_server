@@ -61,7 +61,7 @@ class QuestionConfig extends ApiController
                 // get user from auth
                 $user = Auth::user();
                 $data['user_id'] = $user->id; // todo get from Auth layer
-                $data['form_id'] = $config->id;
+                $data['form_id'] = $config->form_id;
                 $filledForm = FilledForm::create($data);
 
                 foreach($request->answers as $key=>$item){
@@ -78,15 +78,6 @@ class QuestionConfig extends ApiController
                     $questionData['question_id'] = $item['question'];
                     $questionData['answer'] = $item['answer'];
                     $filledQuestion = FilledQuestion::create($questionData);
-                    // save the information in Account
-                    if($questionData['question_id'] == 1){
-                        $user['date'] = $questionData['answer'];
-                        $user->save();
-                    }
-                    if($questionData['question_id'] == 2){
-                        $user['address'] = $questionData['answer'];
-                        $user->save();
-                    }
 
 
 //                    return response()->json('answers saved' , 200);

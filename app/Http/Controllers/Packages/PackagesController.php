@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Packages;
 use App\Http\Controllers\ApiController;
 use App\Massage;
 use App\Packages;
+use App\TimeConfig;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -23,6 +24,12 @@ class PackagesController extends ApiController
         $packages = Packages::all();
         foreach ($packages as $package){
             $package['massage_id'] = $package->massage;
+
+            if(count($package->timeConfigs)){
+                $package['have_time_configs'] = 'true';
+            }else{
+                $package['have_time_configs'] = 'false';
+            }
         }
         return $this->showAll($packages);
     }
@@ -125,5 +132,84 @@ class PackagesController extends ApiController
         Storage::delete($package->image);
 
         return $this->showOne($package);
+    }
+    public function createTimeConfigForPackage(Request $request){
+        $rules =[
+            'package' => 'required'
+        ];
+        $this->validate($request , $rules);
+        $package = Packages::find(request('package'));
+
+        if(!count($package->timeConfigs)){
+            $timeConfig = TimeConfig::create();
+            $package->timeConfigs()->sync($timeConfig->id);
+            return $this->showOne($timeConfig);
+        }
+        return $this->showOne($package->timeConfigs[0]);
+    }
+    public function setTimeConfigForPackage(Request $request){
+        $rules = [
+            'package' => 'required'
+        ];
+        $this->validate($request , $rules);
+        $package  = Packages::find(request('package'));
+
+        if(count($package->timeConfigs)){
+            $timeConfig= $package->timeConfigs;
+
+            $timeConfig[0]->fill( $request->only([
+                'h1' ,
+                'h1_gender' ,
+                'h2' ,
+                'h2_gender' ,
+                'h3' ,
+                'h3_gender' ,
+                'h4' ,
+                'h4_gender' ,
+                'h5' ,
+                'h5_gender' ,
+                'h6' ,
+                'h6_gender' ,
+                'h7' ,
+                'h7_gender' ,
+                'h8' ,
+                'h8_gender' ,
+                'h9' ,
+                'h9_gender' ,
+                'h10' ,
+                'h10_gender' ,
+                'h11' ,
+                'h11_gender' ,
+                'h12' ,
+                'h12_gender' ,
+                'h13' ,
+                'h13_gender' ,
+                'h14' ,
+                'h14_gender' ,
+                'h15' ,
+                'h15_gender' ,
+                'h16' ,
+                'h16_gender' ,
+                'h17' ,
+                'h17_gender' ,
+                'h18' ,
+                'h18_gender' ,
+                'h19' ,
+                'h19_gender' ,
+                'h20' ,
+                'h20_gender' ,
+                'h21' ,
+                'h21_gender' ,
+                'h22' ,
+                'h22_gender' ,
+                'h23' ,
+                'h23_gender' ,
+                'h24' ,
+                'h24_gender' ,
+            ]));
+            $timeConfig[0]->save();
+            return $this->showOne($timeConfig[0]);
+
+        }
     }
 }

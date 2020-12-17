@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
+require_once base_path('vendor/tcpdf-master/tcpdf.php');
+require_once base_path('app/generatePdf.php');
 
 class OfferController extends ApiController
 {
@@ -76,5 +78,9 @@ class OfferController extends ApiController
         $offer->delete();
 
         return $this->showOne($offer);
+    }
+    public function test(){
+        $all = Offers::all()->where('validate' , '=' , Offers::VALIDATE);
+        return generateOfferCode($all);
     }
 }
