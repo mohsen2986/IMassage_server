@@ -9,8 +9,8 @@ use SoapClient;
 class SendSms
 {
     // sms panel information
-    private const USERNAME = "mohsenalak2986";
-    private const PASSWORD = "mohsen2986";
+    private const USERNAME = "ArjmanHaamed99";
+    private const PASSWORD = "LImNO33E";
     private const FROM_NUMBER = "+985000125475";
     private const PATTERN_CODE = "nf8qgolnte";
     private $client;
